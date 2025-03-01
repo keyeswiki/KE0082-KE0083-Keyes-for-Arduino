@@ -1,5 +1,3 @@
-# Arduino
-
 # Arduino IDE和驱动的安装
 
 当我们拿到Arduino开发板时，首先我们要安装Arduino IDE和驱动，相关文件我们可以在官网上找到，以下链接是包含各种系统、各种版本的Arduino IDE和驱动任你选择。
