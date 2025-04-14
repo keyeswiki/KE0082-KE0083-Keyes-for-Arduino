@@ -137,25 +137,28 @@ Keyes UNO R3
 
 
 ```
-int val;
-int ledpin=13; 
-void setup()
-{
-Serial.begin(9600);
-pinMode(ledpin,OUTPUT);
-}
-void loop()
-{
-val=Serial.read();
-if(val=='R')
-{
-digitalWrite(ledpin,HIGH);
-delay(500);
-digitalWrite(ledpin,LOW);
-delay(500);
-Serial.println("Hello World!");
-}
-}
+int val;                      // 定义一个整型变量val，用于存储串口读取的值  
+int ledpin = 13;              // 定义LED引脚为数字口13  
+
+void setup()                  // 初始化函数  
+{  
+    Serial.begin(9600);       // 初始化串口通信，波特率9600  
+    pinMode(ledpin, OUTPUT);  // 设置LED引脚为输出模式  
+}  
+
+void loop()                   // 主循环函数  
+{  
+    val = Serial.read();      // 读取串口数据并赋值给val  
+
+    if (val == 'R')           // 如果接收到字符'R'  
+    {  
+        digitalWrite(ledpin, HIGH);  // 点亮LED  
+        delay(500);                  // 延时500ms  
+        digitalWrite(ledpin, LOW);  // 熄灭LED  
+        delay(500);                  // 延时500ms  
+        Serial.println("Hello World!");  // 串口打印"Hello World!"  
+    }  
+}  
 ```
 
 
@@ -189,15 +192,15 @@ LED 闪烁实验是比较基础的实验之一，上一个“ Hello World！”�
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-LED*1
+LED\*1
 
-220Ω 电阻*1
+220Ω 电阻\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -213,29 +216,22 @@ LED*1
 
 测试代码
 
-int led = 2; //定义数字口2
+```
+int led = 2;                // 定义数字口2为LED控制引脚  
 
-void setup()
+void setup()                // 初始化函数  
+{  
+    pinMode(led, OUTPUT);   // 设置LED引脚为输出模式  
+}  
 
-{
-
-  pinMode(led, OUTPUT);     //设置led为输出
-
-}
-
-void loop()
-
-{
-
-  digitalWrite(led, HIGH);   //开启led
-
-  delay(2000); //延迟2S
-
-  digitalWrite(led, LOW);    //关闭led
-
-  delay(2000);//延迟2S
-
-}
+void loop()                 // 主循环函数  
+{  
+    digitalWrite(led, HIGH);  // 点亮LED  
+    delay(2000);              // 延时2000ms（2秒）  
+    digitalWrite(led, LOW);   // 熄灭LED  
+    delay(2000);              // 延时2000ms（2秒）  
+}  
+```
 
 测试结果
 
@@ -249,15 +245,15 @@ void loop()
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-LED*1
+LED\*1
 
-220Ω 电阻*1
+220Ω 电阻\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -273,43 +269,33 @@ LED*1
 
 测试代码
 
-int ledPin = 3; // 定义数字口3
+```
+int ledPin = 3;              // 定义数字口3为LED控制引脚（支持PWM调光）  
 
-void setup()
+void setup()                 // 初始化函数  
+{  
+    pinMode(ledPin, OUTPUT); // 设置LED引脚为输出模式  
+}  
 
-{
+void loop()                  // 主循环函数  
+{  
+    // LED逐渐变亮（0 → 255）  
+    for (int a = 0; a <= 255; a++)  
+    {  
+        analogWrite(ledPin, a);  // PWM输出亮度值（0最暗，255最亮）  
+        delay(10);              // 延时10ms，控制渐变速度  
+    }  
 
-pinMode(ledPin, OUTPUT);// 将ledPin设置为输出
+    // LED逐渐变暗（255 → 0）  
+    for (int a = 255; a >= 0; a--)  
+    {  
+        analogWrite(ledPin, a);  // PWM输出亮度值  
+        delay(10);              // 延时10ms，控制渐变速度  
+    }  
 
-}
-
-void loop()
-
-{
-
-for (int a=0; a\<=255;a++)// 设置使LED逐渐变亮
-
-{
-
-analogWrite(ledPin,a); //开启led,调节亮度，范围是0-255，在255时led最亮
-
-delay(10); // 延迟0.01S
-
-}
-
-for (int a=255; a\>=0;a--) // 设置使LED逐渐变暗
-
-{
-
-analogWrite(ledPin,a); //开启led,调节亮度，范围是0-255，在255时led最亮
-
-delay(10); // 延迟0.01S
-
-}
-
-delay(1000);// 延迟1S
-
-}
+    delay(1000);               // 循环间隔1秒  
+}  
+```
 
 测试结果
 
@@ -323,15 +309,15 @@ delay(1000);// 延迟1S
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
 LED\*5
 
 220Ω 电阻\*5
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -347,49 +333,34 @@ LED\*5
 
 测试代码
 
-int BASE = 2 ; //第一个 LED 接的 I/O 口
+```
+int BASE = 2; //第一个 LED 接的 I/O 口
 
 int NUM = 5; //LED 的总数
 
 void setup()
-
 {
-
-for (int i = BASE; i \< BASE + NUM; i ++)
-
-{
-
-pinMode(i, OUTPUT); //设定数字I/O口为输出
-
-}
-
+    for (int i = BASE; i < BASE + NUM; i ++)
+    {
+        pinMode(i, OUTPUT); //设定数字I/O口为输出
+    }
 }
 
 void loop()
-
 {
+    for (int i = BASE; i < BASE + NUM; i ++)
+    {
+        digitalWrite(i, HIGH); //设定数字I/O口输出为"高"，即逐渐开灯
+        delay(200); //延迟
+    }
 
-for (int i = BASE; i \< BASE + NUM; i ++)
-
-{
-
-digitalWrite(i, HIGH); //设定数字I/O口输出为"高"，即逐渐开灯
-
-delay(200); //延迟
-
+    for (int i = BASE; i < BASE + NUM; i ++)
+    {
+        digitalWrite(i, LOW); //设定数字I/O口输出为"低"，即逐渐关灯
+        delay(200); //延迟
+    }
 }
-
-for (int i = BASE; i \< BASE + NUM; i ++)
-
-{
-
-digitalWrite(i, LOW); //设定数字I/O口输出为"低"，即逐渐关灯
-
-delay(200); //延迟
-
-}
-
-}
+```
 
 测试结果
 
@@ -403,19 +374,19 @@ I/O 口的意思即为INPUT 接口和OUTPUT接口，到目前为止我们设计�
 
 实验器材
 
-开发板 *1
+开发板 \*1
 
-USB线*1
+USB线\*1
 
-LED*1
+LED\*1
 
-轻触按键*1
+轻触按键\*1
 
-220Ω 电阻*1
+220Ω 电阻\*1
 
-10KΩ 电阻*1
+10KΩ 电阻\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -431,45 +402,32 @@ LED*1
 
 测试代码
 
-int ledPin = 11; //定义数字口11
+```
+int ledPin = 11; //定义数字口11  
 
-int inputPin = 3; //定义数字口3
+int inputPin = 3; //定义数字口3  
 
-void setup()
+void setup()  
+{  
+    pinMode(ledPin, OUTPUT); //将ledPin设置为输出  
+    pinMode(inputPin, INPUT); //将inputPin设置为输入  
+}  
 
-{
+void loop()  
+{  
+    int val = digitalRead(inputPin);  
+    //设置数字变量val，读取到数字口3的数值，并赋值给 val  
 
-pinMode(ledPin, OUTPUT); //将ledPin设置为输出
-
-pinMode(inputPin, INPUT); //将inputPin设置为输入
-
-}
-
-void loop()
-
-{
-
-int val = digitalRead(inputPin);
-
-//设置数字变量val，读取到数字口3的数值，并赋值给 val
-
-if (val == LOW) //当val为低电平时，LED变暗
-
-{
-
-digitalWrite(ledPin, LOW); // LED变暗
-
-}
-
-else
-
-{
-
-digitalWrite(ledPin, HIGH); // LED亮起
-
-}
-
-}
+    if (val == LOW) //当val为低电平时，LED变暗  
+    {  
+        digitalWrite(ledPin, LOW); // LED变暗  
+    }  
+    else  
+    {  
+        digitalWrite(ledPin, HIGH); // LED亮起  
+    }  
+}  
+```
 
 测试结果
 
@@ -483,17 +441,17 @@ digitalWrite(ledPin, HIGH); // LED亮起
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-keyes 插件RGB模块*1
+keyes 插件RGB模块\*1
 
 轻触按键\*4
 
 10KΩ 电阻\*4
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -509,133 +467,83 @@ keyes 插件RGB模块*1
 
 测试代码
 
-int redled=8; //红色LED 输出
-
-int yellowled=7; //黄色LED输出
-
-int greenled=6; //绿色LED输出
-
-int redpin=5; //红色按键引脚
-
-int yellowpin=4; //黄色按键引脚
-
-int greenpin=3; //绿色按键引脚
-
-int restpin=2; //复位按键引脚定义
+```
+int redled = 8;    //红色LED 输出
+int yellowled = 7; //黄色LED输出
+int greenled = 6;  //绿色LED输出
+int redpin = 5;    //红色按键引脚
+int yellowpin = 4; //黄色按键引脚
+int greenpin = 3;  //绿色按键引脚
+int restpin = 2;   //复位按键引脚定义
 
 int red;
-
 int yellow;
-
 int green;
 
 void setup()
-
 {
-
-pinMode(redled,OUTPUT);
-
-pinMode(yellowled,OUTPUT);
-
-pinMode(greenled,OUTPUT);
-
-pinMode(redpin,INPUT);
-
-pinMode(yellowpin,INPUT);
-
-pinMode(greenpin,INPUT);
-
+    pinMode(redled, OUTPUT);
+    pinMode(yellowled, OUTPUT);
+    pinMode(greenled, OUTPUT);
+    pinMode(redpin, INPUT);
+    pinMode(yellowpin, INPUT);
+    pinMode(greenpin, INPUT);
 }
 
 void loop() //按键循环扫描。
-
 {
+    red = digitalRead(redpin);
+    yellow = digitalRead(yellowpin);
+    green = digitalRead(greenpin);
 
-red=digitalRead(redpin);
-
-yellow=digitalRead(yellowpin);
-
-green=digitalRead(greenpin);
-
-if(red==LOW)RED_YES();
-
-if(yellow==LOW)YELLOW_YES();
-
-if(green==LOW)GREEN_YES();
-
+    if(red == LOW)
+        RED_YES();
+    if(yellow == LOW)
+        YELLOW_YES();
+    if(green == LOW)
+        GREEN_YES();
 }
 
-void RED_YES()//一直执行红灯亮，直到复位键按下，结束循环
-
+void RED_YES() //一直执行红灯亮，直到复位键按下，结束循环
 {
-
-while(digitalRead(restpin)==1)
-
-{
-
-digitalWrite(redled,HIGH);
-
-digitalWrite(greenled,LOW);
-
-digitalWrite(yellowled,LOW);
-
+    while(digitalRead(restpin) == 1)
+    {
+        digitalWrite(redled, HIGH);
+        digitalWrite(greenled, LOW);
+        digitalWrite(yellowled, LOW);
+    }
+    clear_led();
 }
 
-clear_led();
-
-}
-
-void YELLOW_YES()//一直执行黄灯亮，直到复位键按下，结束循环
-
+void YELLOW_YES() //一直执行黄灯亮，直到复位键按下，结束循环
 {
+    while(digitalRead(restpin) == 1)
+    {
+        digitalWrite(redled, LOW);
+        digitalWrite(greenled, LOW);
+        digitalWrite(yellowled, HIGH);
+    }
+    clear_led();
+}
 
-while(digitalRead(restpin)==1)
-
+void GREEN_YES() //一直执行绿灯亮，直到复位键按下，结束循环
 {
-
-digitalWrite(redled,LOW);
-
-digitalWrite(greenled,LOW);
-
-digitalWrite(yellowled,HIGH);
-
+    while(digitalRead(restpin) == 1)
+    {
+        digitalWrite(redled, LOW);
+        digitalWrite(greenled, HIGH);
+        digitalWrite(yellowled, LOW);
+    }
+    clear_led();
 }
 
-clear_led();
-
-}
-
-void GREEN_YES()//一直执行绿灯亮，直到复位键按下，结束循环
-
+void clear_led() //清除LED
 {
-
-while(digitalRead(restpin)==1)
-
-{
-
-digitalWrite(redled,LOW);
-
-digitalWrite(greenled,HIGH);
-
-digitalWrite(yellowled,LOW);
-
+    digitalWrite(redled, LOW);
+    digitalWrite(greenled, LOW);
+    digitalWrite(yellowled, LOW);
 }
-
-clear_led();
-
-}
-
-void clear_led()//清除LED
-
-{
-
-digitalWrite(redled,LOW);
-
-digitalWrite(greenled,LOW);
-
-digitalWrite(yellowled,LOW);
-
-}
+```
 
 测试结果
 
@@ -649,17 +557,17 @@ digitalWrite(yellowled,LOW);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-LED*1
+LED\*1
 
-220Ω 电阻*1
+220Ω 电阻\*1
 
-可调电位器*1
+可调电位器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -675,33 +583,24 @@ LED*1
 
 测试代码
 
-int ledpin=11;//定义数字接口11（PWM 输出）
+```
+int ledpin = 11; //定义数字接口11（PWM 输出）
 
 void setup()
-
 {
-
-pinMode(ledpin,OUTPUT);//定义数字接口11 为输出
-
-Serial.begin(9600);//设置波特率为9600
-
+    pinMode(ledpin, OUTPUT); //定义数字接口11 为输出
+    Serial.begin(9600); //设置波特率为9600
 }
 
 void loop()
-
 {
-
-int val=analogRead(0);//读取模拟口A0口的值
-
-val = map(val, 0, 1023, 0, 255);//从0-1023映射到0-255
-
-Serial.println(val);//显示val 变量
-
-analogWrite(ledpin,val);// 打开LED 并设置亮度
-
-delay(100);//延时0.1 秒
-
+    int val = analogRead(0); //读取模拟口A0口的值
+    val = map(val, 0, 1023, 0, 255); //从0-1023映射到0-255
+    Serial.println(val); //显示val 变量
+    analogWrite(ledpin, val); // 打开LED 并设置亮度
+    delay(100); //延时0.1 秒
 }
+```
 
 测试结果
 
@@ -717,19 +616,19 @@ delay(100);//延时0.1 秒
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-LED*1
+LED\*
 
-220Ω 电阻*1
+220Ω 电阻\*1
 
-10KΩ 电阻*1
+10KΩ 电阻\*1
 
-光敏电阻*1
+光敏电阻\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -745,33 +644,24 @@ LED*1
 
 测试代码
 
-int ledpin=11;//定义数字接口11（PWM 输出）
+```
+int ledpin = 11; //定义数字接口11（PWM 输出）
 
 void setup()
-
 {
-
-pinMode(ledpin,OUTPUT);//定义数字接口11 为输出
-
-Serial.begin(9600);//设置波特率为9600
-
+    pinMode(ledpin, OUTPUT); //定义数字接口11 为输出
+    Serial.begin(9600); //设置波特率为9600
 }
 
 void loop()
-
 {
-
-int val=analogRead(0);//读取模拟口A0口的值
-
-Serial.println(val);//显示val 变量
-
-val = map(val, 0, 1023, 0, 255);//从0-1023映射到0-255
-
-analogWrite(ledpin,255-val);// 打开LED 并设置亮度
-
-delay(10);//延时0.01 秒
-
+    int val = analogRead(0); //读取模拟口A0口的值
+    Serial.println(val); //显示val 变量
+    val = map(val, 0, 1023, 0, 255); //从0-1023映射到0-255
+    analogWrite(ledpin, 255 - val); // 打开LED 并设置亮度
+    delay(10); //延时0.01 秒
 }
+```
 
 测试结果
 
@@ -785,13 +675,13 @@ delay(10);//延时0.01 秒
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-有源蜂鸣器*1
+有源蜂鸣器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -807,29 +697,22 @@ USB线*1
 
 测试代码
 
-int led = 2; //定义数字口2
+```
+int buzzer = 2; //定义数字口2
 
 void setup()
-
 {
-
-  pinMode(buzzer, OUTPUT);     //设置led为输出
-
+    pinMode(buzzer, OUTPUT); //设置buzzer为输出
 }
 
 void loop()
-
 {
-
-  digitalWrite(buzzer, HIGH);   //开启buzzer
-
-  delay(1000); //延迟1S
-
-  digitalWrite(buzzer, LOW);    //关闭buzzer
-
-  delay(1000);//延迟1S
-
+    digitalWrite(buzzer, HIGH); //开启buzzer
+    delay(1000); //延迟1S
+    digitalWrite(buzzer, LOW); //关闭buzzer
+    delay(1000); //延迟1S
 }
+```
 
 测试结果
 
@@ -843,13 +726,13 @@ void loop()
 
 实验器材
 
-开发板 *1
+开发板 \*1
 
-USB线*1
+USB线\*1
 
-无源蜂鸣器*1
+无源蜂鸣器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -867,228 +750,133 @@ USB线*1
 
 code 1:
 
-int buzzer=3; //定义数字口3
+```
+int buzzer = 3; //定义数字口3
 
 void setup()
-
 {
-
-pinMode(buzzer,OUTPUT);//将buzzer设置为输出
-
+    pinMode(buzzer, OUTPUT); //将buzzer设置为输出
 }
 
 void loop()
-
 {
-
-unsigned char i,j;//定义变量i，j
-
-while(1)
-
-{
-
-for(i=0;i\<80;i++)// 输出一个频率的声音
-
-{
-
-digitalWrite(buzzer,HIGH);
-
-delay(1);//延迟1ms
-
-digitalWrite(buzzer,LOW);
-
-delay(1);//延迟1ms
-
+    unsigned char i, j; //定义变量i，j
+    
+    while(1)
+    {
+        for(i = 0; i < 80; i++) // 输出一个频率的声音
+       {
+            digitalWrite(buzzer, HIGH);
+            delay(1); //延迟1ms
+            digitalWrite(buzzer, LOW);
+            delay(1); //延迟1ms
+       }
+    
+      for(i = 0; i < 100; i++) // 输出另一个频率的声音
+      {
+            digitalWrite(buzzer, HIGH);
+            delay(2); //延迟2ms
+            digitalWrite(buzzer, LOW);
+            delay(2); //延迟2ms
+      }
+    }
 }
-
-for(i=0;i\<100;i++)// 输出另一个频率的声音
-
-{
-
-digitalWrite(buzzer,HIGH);
-
-delay(2);//延迟2ms
-
-digitalWrite(buzzer,LOW);
-
-delay(2);//延迟2ms
-
-}
-
-}
-
-}
+```
 
 code 2:
 
-\#define D0 -1
+```
+#define D0 -1
+#define D1 262
+#define D2 293
+#define D3 329
+#define D4 349
+#define D5 392
+#define D6 440
+#define D7 494
+#define M1 523
+#define M2 586
+#define M3 658
+#define M4 697
+#define M5 783
+#define M6 879
+#define M7 987
+#define H1 1045
+#define H2 1171
+#define H3 1316
+#define H4 1393
+#define H5 1563
+#define H6 1755
+#define H7 1971
+// 列出全部D调的频率
 
-\#define D1 262
+#define WHOLE 1
+#define HALF 0.5
+#define QUARTER 0.25
+#define EIGHTH 0.25
+#define SIXTEENTH 0.625
+// 列出所有节拍
 
-\#define D2 293
-
-\#define D3 329
-
-\#define D4 349
-
-\#define D5 392
-
-\#define D6 440
-
-\#define D7 494
-
-\#define M1 523
-
-\#define M2 586
-
-\#define M3 658
-
-\#define M4 697
-
-\#define M5 783
-
-\#define M6 879
-
-\#define M7 987
-
-\#define H1 1045
-
-\#define H2 1171
-
-\#define H3 1316
-
-\#define H4 1393
-
-\#define H5 1563
-
-\#define H6 1755
-
-\#define H7 1971
-
-//列出全部D调的频率
-
-\#define WHOLE 1
-
-\#define HALF 0.5
-
-\#define QUARTER 0.25
-
-\#define EIGHTH 0.25
-
-\#define SIXTEENTH 0.625
-
-//列出所有节拍
-
-int tune\[\]= //根据简谱列出各频率
-
+int tune[] = // 根据简谱列出各频率
 {
-
-M3,M3,M4,M5,
-
-M5,M4,M3,M2,
-
-M1,M1,M2,M3,
-
-M3,M2,M2,
-
-M3,M3,M4,M5,
-
-M5,M4,M3,M2,
-
-M1,M1,M2,M3,
-
-M2,M1,M1,
-
-M2,M2,M3,M1,
-
-M2,M3,M4,M3,M1,
-
-M2,M3,M4,M3,M2,
-
-M1,M2,D5,D0,
-
-M3,M3,M4,M5,
-
-M5,M4,M3,M4,M2,
-
-M1,M1,M2,M3,
-
-M2,M1,M1
-
+    M3,M3,M4,M5,
+    M5,M4,M3,M2,
+    M1,M1,M2,M3,
+    M3,M2,M2,
+    M3,M3,M4,M5,
+    M5,M4,M3,M2,
+    M1,M1,M2,M3,
+    M2,M1,M1,
+    M2,M2,M3,M1,
+    M2,M3,M4,M3,M1,
+    M2,M3,M4,M3,M2,
+    M1,M2,D5,D0,
+    M3,M3,M4,M5,
+    M5,M4,M3,M4,M2,
+    M1,M1,M2,M3,
+    M2,M1,M1
 };
 
-float durt\[\]= //根据简谱列出各节拍
-
+float durt[] = // 根据简谱列出各节拍
 {
-
-1,1,1,1,
-
-1,1,1,1,
-
-1,1,1,1,
-
-1+0.5,0.5,1+1,
-
-1,1,1,1,
-
-1,1,1,1,
-
-1,1,1,1,
-
-1+0.5,0.5,1+1,
-
-1,1,1,1,
-
-1,0.5,0.5,1,1,
-
-1,0.5,0.5,1,1,
-
-1,1,1,1,
-
-1,1,1,1,
-
-1,1,1,0.5,0.5,
-
-1,1,1,1,
-
-1+0.5,0.5,1+1,
-
+    1,1,1,1,
+    1,1,1,1,
+    1,1,1,1,
+    1+0.5,0.5,1+1,
+    1,1,1,1,
+    1,1,1,1,
+    1,1,1,1,
+    1+0.5,0.5,1+1,
+    1,1,1,1,
+    1,0.5,0.5,1,1,
+    1,0.5,0.5,1,1,
+    1,1,1,1,
+    1,1,1,1,
+    1,1,1,0.5,0.5,
+    1,1,1,1,
+    1+0.5,0.5,1+1,
 };
 
 int length;
-
-int tonepin=3; //得用3号接口
+int tonepin = 3; // 使用3号接口
 
 void setup()
-
 {
-
-pinMode(tonepin,OUTPUT);
-
-length=sizeof(tune)/sizeof(tune\[0\]); //计算长度
-
+    pinMode(tonepin, OUTPUT);
+    length = sizeof(tune) / sizeof(tune[0]); // 计算长度
 }
 
 void loop()
-
 {
-
-for(int x=0;x\<length;x++)
-
-{
-
-tone(tonepin,tune\[x\]);
-
-delay(500\*durt\[x\]);
-//这里用来根据节拍调节延时，500这个指数可以自己调整，在该音乐中，我发现用500比较合适。
-
-noTone(tonepin);
-
+    for(int x = 0; x < length; x++)
+    {
+        tone(tonepin, tune[x]);
+        delay(500 * durt[x]); // 根据节拍调节延时
+        noTone(tonepin);
+    }
+    delay(2000); // 每遍播放完后暂停2秒
 }
-
-delay(2000);
-
-}
+```
 
 测试结果
 
@@ -1104,17 +892,17 @@ delay(2000);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-有源蜂鸣器*1
+有源蜂鸣器\*1
 
-火焰传感器*1
+火焰传感器\*1
 
-10KΩ 电阻*1
+10KΩ 电阻\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -1130,43 +918,32 @@ USB线*1
 
 测试代码
 
-int flame=7;//定义火焰接口为数字7 接口
-
-int Beep=9;//定义蜂鸣器接口为数字9 接口
+```
+int flame = 7;  // 定义火焰传感器接口为数字7接口
+int Beep = 9;   // 定义蜂鸣器接口为数字9接口
 
 void setup()
-
 {
-
-pinMode(Beep,OUTPUT);//定义Beep为输出接口
-
-pinMode(flame,INPUT);//定义flame为输入接口
-
+    pinMode(Beep, OUTPUT);  // 定义Beep为输出接口
+    pinMode(flame, INPUT);  // 定义flame为输入接口
 }
 
 void loop()
-
 {
-
-int val=digitalRead(flame);//读取火焰传感器
-
-if(val==HIGH)//当数字口7为高电平时蜂鸣器鸣响
-
-{
-
-digitalWrite(Beep,HIGH);
-
-}else
-
-{
-
-digitalWrite(Beep,LOW);
-
+    int val = digitalRead(flame);  // 读取火焰传感器
+    
+    if(val == HIGH)  // 当检测到火焰时（数字口7为高电平）
+    {
+        digitalWrite(Beep, HIGH);  // 蜂鸣器鸣响
+    }
+    else
+    {
+        digitalWrite(Beep, LOW);   // 关闭蜂鸣器
+    }
+    
+    delay(500);  // 检测间隔500ms
 }
-
-delay(500);
-
-}
+```
 
 测试结果
 
@@ -1182,17 +959,17 @@ LM35 是很常用且易用的温度传感器元件，将LM35温度传感器接�
 
 实验器材
 
-开发板 *1
+开发板 \*1
 
-USB线*1
+USB线\*1
 
-LM35DZ*1
+LM35DZ\*1
 
 LED\*3
 
 220Ω 电阻\*3
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -1208,65 +985,43 @@ LED\*3
 
 测试代码
 
-void setup() {
-
-Serial.begin(9600);
-
-pinMode(12, OUTPUT);
-
-pinMode(11, OUTPUT);
-
-pinMode(10, OUTPUT);
-
-}
-
-void loop() {
-
-int vol = analogRead(A0) \* (5.0 / 1023.0*100);
-
-Serial.print("Tep:");
-
-Serial.print(vol);
-
-Serial.println("C");
-
-if (vol\<28)
-
+```
+void setup() 
 {
-
-digitalWrite(12, HIGH);
-
-digitalWrite(11, LOW);
-
-digitalWrite(10, LOW);
-
+    Serial.begin(9600);  // 初始化串口通信，波特率9600
+    pinMode(12, OUTPUT); // 设置12号引脚为输出模式
+    pinMode(11, OUTPUT); // 设置11号引脚为输出模式
+    pinMode(10, OUTPUT); // 设置10号引脚为输出模式
 }
 
-else if (vol\>=28 && vol\<=30)
-
+void loop() 
 {
+    int vol = analogRead(A0) * (5.0 / 1023.0*100);  // 读取A0模拟值并转换为温度值
+    Serial.print("Tep:");  // 串口打印温度标签（注意原代码拼写为"Tep"）
+    Serial.print(vol);     // 输出温度数值
+    Serial.println("C");   // 输出温度单位（摄氏度）
 
-digitalWrite(12, LOW);
-
-digitalWrite(11, HIGH);
-
-digitalWrite(10, LOW);
-
+    // 温度状态判断
+    if (vol<28)  // 当温度低于28度时
+    {
+        digitalWrite(12, HIGH);  // 开启12号引脚（低温指示灯）
+        digitalWrite(11, LOW);   // 关闭11号引脚
+        digitalWrite(10, LOW);   // 关闭10号引脚
+    }
+    else if (vol>=28 && vol<=30)  // 当温度在28-30度之间时
+    {
+        digitalWrite(12, LOW);    // 关闭12号引脚
+        digitalWrite(11, HIGH);   // 开启11号引脚（正常温度指示灯）
+        digitalWrite(10, LOW);    // 关闭10号引脚
+    }
+    else if (vol>30)  // 当温度高于30度时
+    {
+        digitalWrite(12, LOW);    // 关闭12号引脚
+        digitalWrite(11, LOW);    // 关闭11号引脚
+        digitalWrite(10, HIGH);   // 开启10号引脚（高温指示灯）
+    }
 }
-
-else if (vol\>30)
-
-{
-
-digitalWrite(12, LOW);
-
-digitalWrite(11, LOW);
-
-digitalWrite(10, HIGH);
-
-}
-
-}
+```
 
 测试结果
 
@@ -1282,9 +1037,9 @@ digitalWrite(10, HIGH);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
 LED\*2
 
@@ -1294,7 +1049,7 @@ LED\*2
 
 10KΩ 电阻\*2
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -1310,108 +1065,68 @@ LED\*2
 
 测试代码
 
-int LedPinA = 5; //定义数字口5
+```
+int LedPinA = 5;            // 定义数字口5（PWM输出控制LED）
+int LedPinB = 6;            // 定义数字口6（PWM输出控制LED）
+int ButtonPinA = 7;         // 定义数字口7（按钮A输入）
+int ButtonPinB = 4;         // 定义数字口4（按钮B输入）
 
-int LedPinB = 6; //定义数字口6
+int buttonStateA = 0;       // 存储按钮A的状态
+int buttonStateB = 0;       // 存储按钮B的状态
+int brightnessA = 0;        // LEDA亮度初始值（0-255）
+int brightnessB = 255;      // LEDB亮度初始值（0-255）
 
-int ButtonPinA = 7;//定义数字口7
-
-int ButtonPinB = 4;//定义数字口4
-
-int buttonStateA = 0;
-
-int buttonStateB = 0;
-
-int brightnessA = 0;
-
-int brightnessB= 255;
-
-void setup()
-
+void setup()                // 初始化函数
 {
-
-Serial.begin(9600);//设置波特率
-
-pinMode(LedPinA, OUTPUT);//数字口5设置为输出
-
-pinMode(LedPinB, OUTPUT);//数字口6设置为输出
-
-pinMode(ButtonPinA, INPUT);//数字口7设置为输入
-
-pinMode(ButtonPinB, INPUT);//数字口4设置为输入
-
+    Serial.begin(9600);     // 初始化串口通信（波特率9600）
+    
+    pinMode(LedPinA, OUTPUT);  // 设置数字口5为输出模式
+    pinMode(LedPinB, OUTPUT);  // 设置数字口6为输出模式
+    pinMode(ButtonPinA, INPUT);  // 设置数字口7为输入模式
+    pinMode(ButtonPinB, INPUT);  // 设置数字口4为输入模式
 }
 
-void loop()
-
+void loop()                 // 主循环函数
 {
+    // 按钮A控制LEDB亮度
+    buttonStateA = digitalRead(ButtonPinA);  // 读取按钮A状态
+    
+    if (buttonStateA == HIGH && brightnessA != 255)  // 按下按钮A且亮度未达最大值
+    {
+        brightnessA++;       // 亮度增加
+        delay(10);          // 延时10ms（防抖+渐变效果）
+    }
+    
+    if (buttonStateA == LOW && brightnessA != 0)     // 松开按钮A且亮度未达最小值
+    {
+        brightnessA--;       // 亮度减少
+        delay(10);          // 延时10ms
+    }
+    
+    analogWrite(LedPinB, brightnessA);  // 输出PWM信号控制LEDB亮度
+    Serial.print(brightnessA);          // 串口打印LEDB亮度值
+    Serial.print(" ");                  // 打印空格分隔数据
 
-buttonStateA =digitalRead(ButtonPinA);//读取数字口7的数值赋值给buttonStateA
-
-if (buttonStateA == HIGH && brightnessA != 255)
-
-//当buttonStateA为高电平且brightnessA不为255
-
-{
-
-brightnessA ++;//brightnessA加1
-
-delay(10);//延迟0.01S
-
-}
-
-if (buttonStateA == LOW && brightnessA != 0)
-
-//当buttonStateA为低电平且brightnessA不为0
-
-{
-
-brightnessA --;//brightnessA减1
-
-delay(10);//延迟0.01S
-
-}
-
-analogWrite(LedPinB, brightnessA);//将brightnessA赋值为给PWM口6
-
-Serial.print(brightnessA);//显示brightnessA数值
-
-Serial.print(" ");
-
-buttonStateB =
-digitalRead(ButtonPinB);//读取数字口4的数值赋值给buttonStateB
-
-if (buttonStateB == HIGH && brightnessB != 0)
-
-//当buttonStateB为高电平且brightnessA不为0
-
-{
-
-brightnessB --;//brightnessB减1
-
-delay(10);//延迟0.01S
-
-}
-
-if (buttonStateB == LOW && brightnessB != 255)
-
-//当buttonStateB为低电平且brightnessA不为255
-
-{
-
-brightnessB++;//brightnessB加1
-
-delay(10);//延迟0.01S
-
-}
-
-analogWrite(LedPinA, brightnessB); //将brightnessB赋值为给PWM口5
-
-Serial.println(brightnessB);//显示brightnessB数值，并自动换行
-
-delay(5);
-
-}
+    // 按钮B控制LEDA亮度
+    buttonStateB = digitalRead(ButtonPinB);  // 读取按钮B状态
+    
+    if (buttonStateB == HIGH && brightnessB != 0)    // 按下按钮B且亮度未达最小值
+    {
+        brightnessB--;       // 亮度减少
+        delay(10);          // 延时10ms
+    }
+    
+    if (buttonStateB == LOW && brightnessB != 255)   // 松开按钮B且亮度未达最大值
+    {
+        brightnessB++;       // 亮度增加
+        delay(10);          // 延时10ms
+    }
+    
+    analogWrite(LedPinA, brightnessB);  // 输出PWM信号控制LEDA亮度
+    Serial.println(brightnessB);        // 串口打印LEDA亮度值并换行
+    
+    delay(5);               // 主循环延时5ms（降低CPU占用）
+```
 
 测试结果
 
@@ -1431,15 +1146,15 @@ VS1838B是集接收、放大、解调一体的器件，它内部IC就已经完�
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-红外遥控*1
+红外遥控\*1
 
-红外接收 VS1838B*1
+红外接收 VS1838B\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -1455,37 +1170,28 @@ USB线*1
 
 测试代码
 
-\#include \<IRremote.h\>
+```
+#include <IRremote.h>        // 引入红外遥控库
 
-int RECV_PIN = 11; //定义数字口11
+int RECV_PIN = 11;           // 定义红外接收器连接的数字口11
+IRrecv irrecv(RECV_PIN);     // 创建红外接收对象
+decode_results results;      // 存储解码结果的结构体
 
-IRrecv irrecv(RECV_PIN);
-
-decode_results results;
-
-void setup()
-
+void setup()                 // 初始化函数
 {
-
-Serial.begin(9600);//设置波特率
-
-irrecv.enableIRIn(); // 使能红外接收
-
+    Serial.begin(9600);      // 初始化串口通信（波特率9600）
+    irrecv.enableIRIn();     // 启动红外接收功能
 }
 
-void loop() {
-
-if (irrecv.decode(&results))
-
+void loop()                  // 主循环函数
 {
-
-Serial.println(results.value, HEX);//显示数据
-
-irrecv.resume(); // 接收下个数据
-
+    if (irrecv.decode(&results))  // 检测是否接收到红外信号
+    {
+        Serial.println(results.value, HEX);  // 以16进制格式输出红外编码
+        irrecv.resume();     // 准备接收下一个红外信号
+    }
 }
-
-}
+```
 
 测试结果
 
@@ -1503,15 +1209,15 @@ irrecv.resume(); // 接收下个数据
 
 实验器材
 
-开发板 *1
+开发板 \*1
 
-USB线*1
+USB线\*1
 
-一位数码管*1
+一位数码管\*1
 
 220Ω 电阻\*8
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -1527,235 +1233,133 @@ USB线*1
 
 测试代码
 
+```
 //设置控制各段的数字IO 脚
-
 int a=7;//定义数字接口7 连接a 段数码管
-
 int b=6;// 定义数字接口6 连接b 段数码管
-
 int c=5;// 定义数字接口5 连接c 段数码管
-
 int d=10;// 定义数字接口11 连接d 段数码管
-
 int e=11;// 定义数字接口10 连接e 段数码管
-
 int f=8;// 定义数字接口8 连接f 段数码管
-
 int g=9;// 定义数字接口9 连接g 段数码管
-
 int dp=4;// 定义数字接口4 连接dp 段数码管
 
 void digital_1(void) //显示数字1
-
 {
-
-unsigned char j;
-
-digitalWrite(c,HIGH);//给数字接口5 引脚高电平，点亮c 段
-
-digitalWrite(b,HIGH);//点亮b 段
-
-for(j=7;j\<=11;j++)//熄灭其余段
-
-digitalWrite(j,LOW);
-
-digitalWrite(dp,LOW);//熄灭小数点DP 段
-
+    unsigned char j;
+    digitalWrite(c,HIGH);//给数字接口5 引脚高电平，点亮c 段
+    digitalWrite(b,HIGH);//点亮b 段
+    for(j=7;j<=11;j++)//熄灭其余段
+        digitalWrite(j,LOW);
+    digitalWrite(dp,LOW);//熄灭小数点DP 段
 }
 
 void digital_2(void) //显示数字2
-
 {
-
-unsigned char j;
-
-digitalWrite(b,HIGH);
-
-digitalWrite(a,HIGH);
-
-for(j=9;j\<=11;j++)
-
-digitalWrite(j,HIGH);
-
-digitalWrite(dp,LOW);
-
-digitalWrite(c,LOW);
-
-digitalWrite(f,LOW);
-
+    unsigned char j;
+    digitalWrite(b,HIGH);
+    digitalWrite(a,HIGH);
+    for(j=9;j<=11;j++)
+        digitalWrite(j,HIGH);
+    digitalWrite(dp,LOW);
+    digitalWrite(c,LOW);
+    digitalWrite(f,LOW);
 }
 
 void digital_3(void) //显示数字3
-
 {
-
-unsigned char j;
-
-digitalWrite(g,HIGH);
-
-digitalWrite(d,HIGH);
-
-for(j=5;j\<=7;j++)
-
-digitalWrite(j,HIGH);
-
-digitalWrite(dp,LOW);
-
-digitalWrite(f,LOW);
-
-digitalWrite(e,LOW);
-
+    unsigned char j;
+    digitalWrite(g,HIGH);
+    digitalWrite(d,HIGH);
+    for(j=5;j<=7;j++)
+        digitalWrite(j,HIGH);
+    digitalWrite(dp,LOW);
+    digitalWrite(f,LOW);
+    digitalWrite(e,LOW);
 }
 
 void digital_4(void) //显示数字4
-
 {
-
-digitalWrite(c,HIGH);
-
-digitalWrite(b,HIGH);
-
-digitalWrite(f,HIGH);
-
-digitalWrite(g,HIGH);
-
-digitalWrite(dp,LOW);
-
-digitalWrite(a,LOW);
-
-digitalWrite(e,LOW);
-
-digitalWrite(d,LOW);
-
+    digitalWrite(c,HIGH);
+    digitalWrite(b,HIGH);
+    digitalWrite(f,HIGH);
+    digitalWrite(g,HIGH);
+    digitalWrite(dp,LOW);
+    digitalWrite(a,LOW);
+    digitalWrite(e,LOW);
+    digitalWrite(d,LOW);
 }
 
 void digital_5(void) //显示数字5
-
 {
-
-unsigned char j;
-
-for(j=7;j\<=9;j++)
-
-digitalWrite(j,HIGH);
-
-digitalWrite(c,HIGH);
-
-digitalWrite(d,HIGH);
-
-digitalWrite(dp,LOW);
-
-digitalWrite(b,LOW);
-
-digitalWrite(e,LOW);
-
+    unsigned char j;
+    for(j=7;j<=9;j++)
+        digitalWrite(j,HIGH);
+    digitalWrite(c,HIGH);
+    digitalWrite(d,HIGH);
+    digitalWrite(dp,LOW);
+    digitalWrite(b,LOW);
+    digitalWrite(e,LOW);
 }
 
 void digital_6(void) //显示数字6
-
 {
-
-unsigned char j;
-
-for(j=7;j\<=11;j++)
-
-digitalWrite(j,HIGH);
-
-digitalWrite(c,HIGH);
-
-digitalWrite(dp,LOW);
-
-digitalWrite(b,LOW);
-
+    unsigned char j;
+    for(j=7;j<=11;j++)
+        digitalWrite(j,HIGH);
+    digitalWrite(c,HIGH);
+    digitalWrite(dp,LOW);
+    digitalWrite(b,LOW);
 }
 
 void digital_7(void) //显示数字7
-
 {
-
-unsigned char j;
-
-for(j=5;j\<=7;j++)
-
-digitalWrite(j,HIGH);
-
-digitalWrite(dp,LOW);
-
-for(j=8;j\<=11;j++)
-
-digitalWrite(j,LOW);
-
+    unsigned char j;
+    for(j=5;j<=7;j++)
+        digitalWrite(j,HIGH);
+    digitalWrite(dp,LOW);
+    for(j=8;j<=11;j++)
+        digitalWrite(j,LOW);
 }
 
 void digital_8(void) //显示数字8
-
 {
-
-unsigned char j;
-
-for(j=5;j\<=11;j++)
-
-digitalWrite(j,HIGH);
-
-digitalWrite(dp,LOW);
-
+    unsigned char j;
+    for(j=5;j<=11;j++)
+        digitalWrite(j,HIGH);
+    digitalWrite(dp,LOW);
 }
 
 void setup()
-
 {
-
-int i;//定义变量
-
-for(i=4;i\<=11;i++)
-
-pinMode(i,OUTPUT);//设置4～11 引脚为输出模式
-
+    int i;//定义变量
+    for(i=4;i<=11;i++)
+        pinMode(i,OUTPUT);//设置4～11 引脚为输出模式
 }
 
 void loop()
-
 {
-
-while(1)
-
-{
-
-digital_1();//显示数字1
-
-delay(2000);//延时2s
-
-digital_2();//显示数字2
-
-delay(1000); //延时1s
-
-digital_3();//显示数字3
-
-delay(1000); //延时1s
-
-digital_4();//显示数字4
-
-delay(1000); //延时1s
-
-digital_5();//显示数字5
-
-delay(1000); //延时1s
-
-digital_6();//显示数字6
-
-delay(1000); //延时1s
-
-digital_7();//显示数字7
-
-delay(1000); //延时1s
-
-digital_8();//显示数字8
-
-delay(1000); //延时1s
-
+    while(1)
+    {
+        digital_1();//显示数字1
+        delay(2000);//延时2s
+        digital_2();//显示数字2
+        delay(1000); //延时1s
+        digital_3();//显示数字3
+        delay(1000); //延时1s
+        digital_4();//显示数字4
+        delay(1000); //延时1s
+        digital_5();//显示数字5
+        delay(1000); //延时1s
+        digital_6();//显示数字6
+        delay(1000); //延时1s
+        digital_7();//显示数字7
+        delay(1000); //延时1s
+        digital_8();//显示数字8
+        delay(1000); //延时1s
+    }
 }
-
-}
+```
 
 测试结果
 
@@ -1787,17 +1391,17 @@ delay(1000); //延时1s
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-74HC595*1
+74HC595\*1
 
-一位数码管*1
+一位数码管\*1
 
 220Ω 电阻\*8
 
-面包板*1
+面包板\*1
 
 正标接线若干
 
@@ -1813,48 +1417,33 @@ USB线*1
 
 测试代码
 
+```
 int latchPin = 4;
-
 int clockPin = 5;
-
 int dataPin = 2; //这里定义了那三个脚
 
 void setup ()
-
 {
-
-pinMode(latchPin,OUTPUT);
-
-pinMode(clockPin,OUTPUT);
-
-pinMode(dataPin,OUTPUT); //让三个脚都是输出状态
-
+    pinMode(latchPin,OUTPUT);
+    pinMode(clockPin,OUTPUT);
+    pinMode(dataPin,OUTPUT); //让三个脚都是输出状态
 }
 
 void loop()
-
 {
-
-int a\[10\]={
-
-246,254,224,190,182,102,242,218,96,252};
-//定义功能数组，数组依次为数码管得定义
-
-for(int x=9; x\>-1 ;x-- ) //倒数功能循环
-
-{
-
-digitalWrite(latchPin,LOW);
-
-shiftOut(dataPin,clockPin,MSBFIRST,a\[x\]); //显示数组a\[x\]
-
-digitalWrite(latchPin,HIGH);
-
-delay(1000);
-
+    int a[10]={
+        246,254,224,190,182,102,242,218,96,252}; 
+        //定义功能数组，数组依次为数码管得定义
+    
+    for(int x=9; x>-1 ;x-- ) //倒数功能循环
+    {
+        digitalWrite(latchPin,LOW);
+        shiftOut(dataPin,clockPin,MSBFIRST,a[x]); //显示数组a[x]
+        digitalWrite(latchPin,HIGH);
+        delay(1000);
+    }
 }
-
-}
+```
 
 测试结果
 
@@ -1888,11 +1477,11 @@ delay(1000);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-舵机*1
+舵机\*1
 
 正标线若干
 
@@ -1910,95 +1499,63 @@ USB线*1
 
 程序A：
 
-int servopin=9;//定义数字接口9 连接伺服舵机信号线
-
-int myangle;//定义角度变量
-
-int pulsewidth;//定义脉宽变量
-
+```
+int servopin=9;      //定义数字接口9 连接伺服舵机信号线
+int myangle;         //定义角度变量
+int pulsewidth;      //定义脉宽变量
 int val;
 
-void servopulse(int servopin,int myangle)//定义一个脉冲函数
-
+void servopulse(int servopin,int myangle)  //定义一个脉冲函数
 {
-
-pulsewidth=(myangle*11)+500;//将角度转化为500-2480 的脉宽值
-
-digitalWrite(servopin,HIGH);//将舵机接口电平至高
-
-delayMicroseconds(pulsewidth);//延时脉宽值的微秒数
-
-digitalWrite(servopin,LOW);//将舵机接口电平至低
-
-delay(20-pulsewidth/1000);
-
+    pulsewidth=(myangle*11)+500;           //将角度转化为500-2480 的脉宽值
+    digitalWrite(servopin,HIGH);           //将舵机接口电平至高
+    delayMicroseconds(pulsewidth);         //延时脉宽值的微秒数
+    digitalWrite(servopin,LOW);            //将舵机接口电平至低
+    delay(20-pulsewidth/1000);
 }
 
 void setup()
-
 {
-
-pinMode(servopin,OUTPUT);//设定舵机接口为输出接口
-
-Serial.begin(9600);//连接到串行端口，波特率为9600
-
-Serial.println("servo=o_seral_simple ready" ) ;
-
+    pinMode(servopin,OUTPUT);              //设定舵机接口为输出接口
+    Serial.begin(9600);                    //连接到串行端口，波特率为9600
+    Serial.println("servo=o_seral_simple ready");
 }
 
-void loop()//将0 到9 的数转化为0 到180 角度，并让LED 闪烁相应数的次数
-
+void loop()  //将0 到9 的数转化为0 到180 角度，并让LED 闪烁相应数的次数
 {
-
-val=Serial.read();//读取串行端口的值
-
-if(val\>='0'&&val\<='9')
-
-{
-
-val=val-'0';//将特征量转化为数值变量
-
-val=val\*(180/9);//将数字转化为角度
-
-Serial.print("moving servo to ");
-
-Serial.print(val,DEC);
-
-Serial.println();
-
-for(int i=0;i\<=50;i++) //给予舵机足够的时间让它转到指定角度
-
-{
-
-servopulse(servopin,val);//引用脉冲函数
-
+    val=Serial.read();                     //读取串行端口的值
+    if(val>='0'&&val<='9')
+    {
+        val=val-'0';                       //将特征量转化为数值变量
+        val=val*(180/9);                   //将数字转化为角度
+        Serial.print("moving servo to ");
+        Serial.print(val,DEC);
+        Serial.println();
+        for(int i=0;i<=50;i++)             //给予舵机足够的时间让它转到指定角度
+        {
+            servopulse(servopin,val);      //引用脉冲函数
+        }
+    }
 }
-
-}
-
-}
+```
 
 程序B：
 
-\#include \<Servo.h\>
+```
+#include <Servo.h>  
 
-Servo myservo;//定义舵机变量名
+Servo myservo;        //定义舵机变量名
 
 void setup()
-
 {
-
-myservo.attach(9);//定义舵机接口（9、10 都可以，缺点只能控制2 个）
-
+    myservo.attach(9); //定义舵机接口（9、10 都可以，缺点只能控制2 个）
 }
 
 void loop()
-
 {
-
-myservo.write(90);//设置舵机旋转的角度
-
+    myservo.write(90); //设置舵机旋转的角度
 }
+```
 
 测试结果
 
@@ -2026,15 +1583,15 @@ myservo.write(90);//设置舵机旋转的角度
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-四位数码管*1
+四位数码管\*1
 
 220Ω 电阻\*8
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -2050,539 +1607,296 @@ USB线*1
 
 测试代码
 
+```
+// 数码管段选引脚定义（a-g, dp）
 int a = 1;
-
 int b = 2;
-
 int c = 3;
-
 int d = 4;
-
 int e = 5;
-
 int f = 6;
-
 int g = 7;
-
 int dp = 8;
 
+// 数码管位选引脚定义（4位数码管）
 int d4 = 9;
-
 int d3 = 10;
-
 int d2 = 11;
-
 int d1 = 12;
 
-// set variable
-
-long n = 1230;
-
-int x = 100;
-
-int del = 55; // fine adjustment for clock
+// 全局变量定义
+long n = 1230;  // 初始显示值（未使用）
+int x = 100;    // 变量（未使用）
+int del = 55;   // 时钟微调参数（未使用）
 
 void setup()
-
 {
-
-pinMode(d1, OUTPUT);
-
-pinMode(d2, OUTPUT);
-
-pinMode(d3, OUTPUT);
-
-pinMode(d4, OUTPUT);
-
-pinMode(a, OUTPUT);
-
-pinMode(b, OUTPUT);
-
-pinMode(c, OUTPUT);
-
-pinMode(d, OUTPUT);
-
-pinMode(e, OUTPUT);
-
-pinMode(f, OUTPUT);
-
-pinMode(g, OUTPUT);
-
-pinMode(dp, OUTPUT);
-
+    // 初始化所有引脚为输出模式
+    pinMode(d1, OUTPUT);
+    pinMode(d2, OUTPUT);
+    pinMode(d3, OUTPUT);
+    pinMode(d4, OUTPUT);
+    pinMode(a, OUTPUT);
+    pinMode(b, OUTPUT);
+    pinMode(c, OUTPUT);
+    pinMode(d, OUTPUT);
+    pinMode(e, OUTPUT);
+    pinMode(f, OUTPUT);
+    pinMode(g, OUTPUT);
+    pinMode(dp, OUTPUT);
 }
 
 /////////////////////////////////////////////////////////////
-
 void loop()
-
 {
-
-int a=0;
-
-int b=0;
-
-int c=0;
-
-int d=0;
-
-unsigned long currentMillis = millis();
-
-while(d\>=0)
-
-{
-
-while(millis()-currentMillis\<1000)
-
-{
-
-Display(1,a);
-
-Display(2,b);
-
-Display(3,c);
-
-Display(4,d);
-
-}
-
-currentMillis = millis();
-
-d++;
-
-if (d\>9)
-
-{
-
-c++;
-
-d=0;
-
-}
-
-if (c\>9)
-
-{
-
-b++;
-
-c=0;
-
-}
-
-if (b\>9)
-
-{
-
-a++;
-
-b=0;
-
-}
-
-if (a\>9)
-
-{
-
-a=0;
-
-b=0;
-
-c=0;
-
-d=0;
-
-}
-
-}
-
+    // 计数器变量初始化
+    int a=0;  // 千位
+    int b=0;  // 百位
+    int c=0;  // 十位
+    int d=0;  // 个位
+    unsigned long currentMillis = millis();
+    
+    // 主计数循环
+    while(d>=0)
+    {
+        // 每秒更新一次显示
+        while(millis()-currentMillis<1000)
+        {
+            // 动态扫描显示4位数码管
+            Display(1,a);  // 显示千位
+            Display(2,b);  // 显示百位
+            Display(3,c);  // 显示十位
+            Display(4,d);  // 显示个位
+        }
+        currentMillis = millis();
+        
+        // 数字递增逻辑
+        d++;
+        if (d>9)  // 个位进位
+        {
+            c++;
+            d=0;
+        }
+        if (c>9)  // 十位进位
+        {
+            b++;
+            c=0;
+        }
+        if (b>9)  // 百位进位
+        {
+            a++;
+            b=0;
+        }
+        if (a>9)  // 千位归零
+        {
+            a=0;
+            b=0;
+            c=0;
+            d=0;
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////
-
-void WeiXuan(unsigned char n)//
-
+// 位选函数（选择要显示的数码管位）
+void WeiXuan(unsigned char n)
 {
-
-switch (n)
-
-{
-
-case 1:
-
-digitalWrite(d1, LOW);
-
-digitalWrite(d2, HIGH);
-
-digitalWrite(d3, HIGH);
-
-digitalWrite(d4, HIGH);
-
-break;
-
-case 2:
-
-digitalWrite(d1, HIGH);
-
-digitalWrite(d2, LOW);
-
-digitalWrite(d3, HIGH);
-
-digitalWrite(d4, HIGH);
-
-break;
-
-case 3:
-
-digitalWrite(d1, HIGH);
-
-digitalWrite(d2, HIGH);
-
-digitalWrite(d3, LOW);
-
-digitalWrite(d4, HIGH);
-
-break;
-
-case 4:
-
-digitalWrite(d1, HIGH);
-
-digitalWrite(d2, HIGH);
-
-digitalWrite(d3, HIGH);
-
-digitalWrite(d4, LOW);
-
-break;
-
-default :
-
-digitalWrite(d1, HIGH);
-
-digitalWrite(d2, HIGH);
-
-digitalWrite(d3, HIGH);
-
-digitalWrite(d4, HIGH);
-
-break;
-
+    switch (n)
+    {
+        case 1:  // 选择第1位
+            digitalWrite(d1, LOW);
+            digitalWrite(d2, HIGH);
+            digitalWrite(d3, HIGH);
+            digitalWrite(d4, HIGH);
+            break;
+        case 2:  // 选择第2位
+            digitalWrite(d1, HIGH);
+            digitalWrite(d2, LOW);
+            digitalWrite(d3, HIGH);
+            digitalWrite(d4, HIGH);
+            break;
+        case 3:  // 选择第3位
+            digitalWrite(d1, HIGH);
+            digitalWrite(d2, HIGH);
+            digitalWrite(d3, LOW);
+            digitalWrite(d4, HIGH);
+            break;
+        case 4:  // 选择第4位
+            digitalWrite(d1, HIGH);
+            digitalWrite(d2, HIGH);
+            digitalWrite(d3, HIGH);
+            digitalWrite(d4, LOW);
+            break;
+        default:  // 默认关闭所有位选
+            digitalWrite(d1, HIGH);
+            digitalWrite(d2, HIGH);
+            digitalWrite(d3, HIGH);
+            digitalWrite(d4, HIGH);
+            break;
+    }
 }
 
-}
-
-void Num_0()
-
+// 数字0-9的显示函数（共阴极数码管）
+void Num_0()  // 显示数字0
 {
-
-digitalWrite(a, HIGH);
-
-digitalWrite(b, HIGH);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, HIGH);
-
-digitalWrite(e, HIGH);
-
-digitalWrite(f, HIGH);
-
-digitalWrite(g, LOW);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, HIGH);
+    digitalWrite(b, HIGH);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, HIGH);
+    digitalWrite(e, HIGH);
+    digitalWrite(f, HIGH);
+    digitalWrite(g, LOW);
+    digitalWrite(dp, LOW);
 }
 
-void Num_1()
-
+void Num_1()  // 显示数字1
 {
-
-digitalWrite(a, LOW);
-
-digitalWrite(b, HIGH);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, LOW);
-
-digitalWrite(e, LOW);
-
-digitalWrite(f, LOW);
-
-digitalWrite(g, LOW);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, LOW);
+    digitalWrite(b, HIGH);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, LOW);
+    digitalWrite(e, LOW);
+    digitalWrite(f, LOW);
+    digitalWrite(g, LOW);
+    digitalWrite(dp, LOW);
 }
 
-void Num_2()
-
+void Num_2()  // 显示数字2
 {
-
-digitalWrite(a, HIGH);
-
-digitalWrite(b, HIGH);
-
-digitalWrite(c, LOW);
-
-digitalWrite(d, HIGH);
-
-digitalWrite(e, HIGH);
-
-digitalWrite(f, LOW);
-
-digitalWrite(g, HIGH);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, HIGH);
+    digitalWrite(b, HIGH);
+    digitalWrite(c, LOW);
+    digitalWrite(d, HIGH);
+    digitalWrite(e, HIGH);
+    digitalWrite(f, LOW);
+    digitalWrite(g, HIGH);
+    digitalWrite(dp, LOW);
 }
 
-void Num_3()
-
+void Num_3()  // 显示数字3
 {
-
-digitalWrite(a, HIGH);
-
-digitalWrite(b, HIGH);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, HIGH);
-
-digitalWrite(e, LOW);
-
-digitalWrite(f, LOW);
-
-digitalWrite(g, HIGH);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, HIGH);
+    digitalWrite(b, HIGH);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, HIGH);
+    digitalWrite(e, LOW);
+    digitalWrite(f, LOW);
+    digitalWrite(g, HIGH);
+    digitalWrite(dp, LOW);
 }
 
-void Num_4()
-
+void Num_4()  // 显示数字4
 {
-
-digitalWrite(a, LOW);
-
-digitalWrite(b, HIGH);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, LOW);
-
-digitalWrite(e, LOW);
-
-digitalWrite(f, HIGH);
-
-digitalWrite(g, HIGH);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, LOW);
+    digitalWrite(b, HIGH);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, LOW);
+    digitalWrite(e, LOW);
+    digitalWrite(f, HIGH);
+    digitalWrite(g, HIGH);
+    digitalWrite(dp, LOW);
 }
 
-void Num_5()
-
+void Num_5()  // 显示数字5
 {
-
-digitalWrite(a, HIGH);
-
-digitalWrite(b, LOW);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, HIGH);
-
-digitalWrite(e, LOW);
-
-digitalWrite(f, HIGH);
-
-digitalWrite(g, HIGH);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, HIGH);
+    digitalWrite(b, LOW);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, HIGH);
+    digitalWrite(e, LOW);
+    digitalWrite(f, HIGH);
+    digitalWrite(g, HIGH);
+    digitalWrite(dp, LOW);
 }
 
-void Num_6()
-
+void Num_6()  // 显示数字6
 {
-
-digitalWrite(a, HIGH);
-
-digitalWrite(b, LOW);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, HIGH);
-
-digitalWrite(e, HIGH);
-
-digitalWrite(f, HIGH);
-
-digitalWrite(g, HIGH);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, HIGH);
+    digitalWrite(b, LOW);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, HIGH);
+    digitalWrite(e, HIGH);
+    digitalWrite(f, HIGH);
+    digitalWrite(g, HIGH);
+    digitalWrite(dp, LOW);
 }
 
-void Num_7()
-
+void Num_7()  // 显示数字7
 {
-
-digitalWrite(a, HIGH);
-
-digitalWrite(b, HIGH);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, LOW);
-
-digitalWrite(e, LOW);
-
-digitalWrite(f, LOW);
-
-digitalWrite(g, LOW);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, HIGH);
+    digitalWrite(b, HIGH);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, LOW);
+    digitalWrite(e, LOW);
+    digitalWrite(f, LOW);
+    digitalWrite(g, LOW);
+    digitalWrite(dp, LOW);
 }
 
-void Num_8()
-
+void Num_8()  // 显示数字8
 {
-
-digitalWrite(a, HIGH);
-
-digitalWrite(b, HIGH);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, HIGH);
-
-digitalWrite(e, HIGH);
-
-digitalWrite(f, HIGH);
-
-digitalWrite(g, HIGH);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, HIGH);
+    digitalWrite(b, HIGH);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, HIGH);
+    digitalWrite(e, HIGH);
+    digitalWrite(f, HIGH);
+    digitalWrite(g, HIGH);
+    digitalWrite(dp, LOW);
 }
 
-void Num_9()
-
+void Num_9()  // 显示数字9
 {
-
-digitalWrite(a, HIGH);
-
-digitalWrite(b, HIGH);
-
-digitalWrite(c, HIGH);
-
-digitalWrite(d, HIGH);
-
-digitalWrite(e, LOW);
-
-digitalWrite(f, HIGH);
-
-digitalWrite(g, HIGH);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, HIGH);
+    digitalWrite(b, HIGH);
+    digitalWrite(c, HIGH);
+    digitalWrite(d, HIGH);
+    digitalWrite(e, LOW);
+    digitalWrite(f, HIGH);
+    digitalWrite(g, HIGH);
+    digitalWrite(dp, LOW);
 }
 
-void Clear() // clear the screen
-
+void Clear() // 清空数码管显示
 {
-
-digitalWrite(a, LOW);
-
-digitalWrite(b, LOW);
-
-digitalWrite(c, LOW);
-
-digitalWrite(d, LOW);
-
-digitalWrite(e, LOW);
-
-digitalWrite(f, LOW);
-
-digitalWrite(g, LOW);
-
-digitalWrite(dp, LOW);
-
+    digitalWrite(a, LOW);
+    digitalWrite(b, LOW);
+    digitalWrite(c, LOW);
+    digitalWrite(d, LOW);
+    digitalWrite(e, LOW);
+    digitalWrite(f, LOW);
+    digitalWrite(g, LOW);
+    digitalWrite(dp, LOW);
 }
 
-void pickNumber(unsigned char n)// select number
-
+// 数字选择函数
+void pickNumber(unsigned char n)
 {
+    switch (n)
+    {
+        case 0: Num_0(); break;
+        case 1: Num_1(); break;
+        case 2: Num_2(); break;
+        case 3: Num_3(); break;
+        case 4: Num_4(); break;
+        case 5: Num_5(); break;
+        case 6: Num_6(); break;
+        case 7: Num_7(); break;
+        case 8: Num_8(); break;
+        case 9: Num_9(); break;
+        default: Clear(); break;
+    }
+}
 
-switch (n)
-
+// 数码管显示函数
+void Display(unsigned char x, unsigned char Number)
 {
-
-case 0: Num_0();
-
-break;
-
-case 1: Num_1();
-
-break;
-
-case 2: Num_2();
-
-break;
-
-case 3: Num_3();
-
-break;
-
-case 4: Num_4();
-
-break;
-
-case 5: Num_5();
-
-break;
-
-case 6: Num_6();
-
-break;
-
-case 7: Num_7();
-
-break;
-
-case 8: Num_8();
-
-break;
-
-case 9: Num_9();
-
-break;
-
-default: Clear();
-
-break;
-
+    WeiXuan(x);      // 选择显示位
+    pickNumber(Number); // 显示数字
+    delay(1);        // 短暂延时
+    Clear();         // 清除显示（消隐）
 }
-
-}
-
-void Display(unsigned char x, unsigned char Number)// take x as coordinate and display number
-
-{
-
-WeiXuan(x);
-
-pickNumber(Number);
-
-delay(1);
-
-Clear() ; // clear the screen
-
-}
+```
 
 测试结果
 
@@ -2598,15 +1912,15 @@ Clear() ; // clear the screen
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-1602 LCD*1
+1602 LCD\*1
 
-可调电位器*1
+可调电位器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -2636,280 +1950,177 @@ USB线*1
 
 四位接法
 
-/\*
+```
+/*
+  LiquidCrystal Library - Hello World
+  
+  演示16x2 LCD显示器的使用。LiquidCrystal库适用于所有兼容
+  Hitachi HD44780驱动器的LCD显示器。这类显示器通常具有16针接口
+  
+  本示例在LCD上显示"Hello World!"和"Hello keyes!"
+  
+  电路连接：
+  * LCD RS引脚 -> 数字引脚2
+  * LCD Enable引脚 -> 数字引脚3
+  * LCD D4引脚 -> 数字引脚4
+  * LCD D5引脚 -> 数字引脚5
+  * LCD D6引脚 -> 数字引脚6
+  * LCD D7引脚 -> 数字引脚7
+  * LCD R/W引脚 -> 接地
+  * LCD VSS引脚 -> 接地
+  * LCD VCC引脚 -> 5V
+  * 10K电位器：
+     - 两端分别接+5V和地
+     - 中间引脚接LCD VO引脚
+*/
 
-LiquidCrystal Library - Hello World
+// 包含LCD库
+#include <LiquidCrystal.h>
 
-Demonstrates the use a 16x2 LCD display. The LiquidCrystal
-
-library works with all LCD displays that are compatible with the
-
-Hitachi HD44780 driver. There are many of them out there, and you
-
-can usually tell them by the 16-pin interface.
-
-This sketch prints "Hello World!" to the LCD
-
-and shows the time.
-
-The circuit:
-
-\* LCD RS pin to digital pin 2
-
-\* LCD Enable pin to digital pin3
-
-\* LCD D4 pin to digital pin 4
-
-\* LCD D5 pin to digital pin 5
-
-\* LCD D6 pin to digital pin 6
-
-\* LCD D7 pin to digital pin 7
-
-\* LCD R/W pin to ground
-
-\* LCD VSS pin to ground
-
-\* LCD VCC pin to 5V
-
-\* 10K resistor:
-
-\* ends to +5V and ground
-
-\* wiper to LCD VO pin
-
-\*/
-
-// include the library code:
-
-\#include \<LiquidCrystal.h\>
-
-// initialize the library with the numbers of the interface pins
-
+// 初始化库，指定接口引脚
 LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 
 void setup() {
-
-// set up the LCD's number of columns and rows:
-
-lcd.begin(16, 2);
-
-// Print a message to the LCD.
-
-lcd.setCursor(2,0);
-
-lcd.print("Hello, world!");
-
-lcd.setCursor(2,1);
-
-lcd.print("Hello, keyes!");
-
+  // 设置LCD的列数和行数（16列2行）
+  lcd.begin(16, 2);
+  
+  // 在LCD上打印消息
+  lcd.setCursor(2,0);    // 设置光标位置(列,行)
+  lcd.print("Hello, world!");
+  lcd.setCursor(2,1);
+  lcd.print("Hello, keyes!");
 }
 
 void loop() {
-
+  // 空循环
 }
 
-八位接法
+/* 以下是八位接法的实现代码 */
 
-int DI = 12;
+// 定义引脚（八位并行接口）
+int DI = 12;    // 数据/指令选择
+int RW = 11;    // 读/写选择
+int DB[] = {3, 4, 5, 6, 7, 8, 9, 10}; // 使用数组定义数据总线引脚
+int Enable = 2; // 使能引脚
 
-int RW = 11;
-
-int DB\[\] = {3, 4,5, 6,7 ,8, 9, 10};//使用数组来定义总线需要的管脚
-
-int Enable = 2;
-
+// 写命令函数
 void LcdCommandWrite(int value) {
-
-// 定义所有引脚
-
-int i = 0;
-
-for (i=DB\[0\]; i \<= DI; i++) //总线赋值
-
-{
-
-digitalWrite(i,value &
-01);//因为1602液晶信号识别是D7-D0(不是D0-D7)，这里是用来反转信号。
-
-value \>\>= 1;
-
+  int i = 0;
+  digitalWrite(DI, LOW);  // 写命令模式
+  digitalWrite(RW, LOW);  // 写模式
+  
+  // 向数据总线写入值（注意信号顺序反转）
+  for (i=DB[0]; i <= DI; i++) {
+    digitalWrite(i,value & 0x01);
+    value >>= 1;
+  }
+  
+  // 产生使能脉冲
+  digitalWrite(Enable,LOW);
+  delayMicroseconds(1);
+  digitalWrite(Enable,HIGH);
+  delayMicroseconds(1);
+  digitalWrite(Enable,LOW);
+  delayMicroseconds(1);
 }
 
-digitalWrite(Enable,LOW);
-
-delayMicroseconds(1);
-
-digitalWrite(Enable,HIGH);
-
-delayMicroseconds(1); // 延时1ms
-
-digitalWrite(Enable,LOW);
-
-delayMicroseconds(1); // 延时1ms
-
-}
-
+// 写数据函数
 void LcdDataWrite(int value) {
-
-// 定义所有引脚
-
-int i = 0;
-
-digitalWrite(DI, HIGH);
-
-digitalWrite(RW, LOW);
-
-for (i=DB\[0\]; i \<= DB\[7\]; i++) {
-
-digitalWrite(i,value & 01);
-
-value \>\>= 1;
-
+  int i = 0;
+  digitalWrite(DI, HIGH); // 写数据模式
+  digitalWrite(RW, LOW);
+  
+  for (i=DB[0]; i <= DB[7]; i++) {
+    digitalWrite(i,value & 0x01);
+    value >>= 1;
+  }
+  
+  // 产生使能脉冲
+  digitalWrite(Enable,LOW);
+  delayMicroseconds(1);
+  digitalWrite(Enable,HIGH);
+  delayMicroseconds(1);
+  digitalWrite(Enable,LOW);
+  delayMicroseconds(1);
 }
 
-digitalWrite(Enable,LOW);
-
-delayMicroseconds(1);
-
-digitalWrite(Enable,HIGH);
-
-delayMicroseconds(1);
-
-digitalWrite(Enable,LOW);
-
-delayMicroseconds(1); // 延时1ms
-
+// 初始化函数（八位接口）
+void setup(void) {
+  int i = 0;
+  // 设置所有引脚为输出模式
+  for (i=Enable; i <= DI; i++) {
+    pinMode(i,OUTPUT);
+  }
+  
+  delay(100); // 短暂延时等待LCD上电
+  
+  // LCD初始化序列
+  LcdCommandWrite(0x38); // 8位接口，2行显示，5x7点阵
+  delay(64);
+  LcdCommandWrite(0x38);
+  delay(50);
+  LcdCommandWrite(0x38);
+  delay(20);
+  
+  LcdCommandWrite(0x06); // 输入模式设置：增量，不移位
+  delay(20);
+  
+  LcdCommandWrite(0x0E); // 显示控制：开显示，显示光标，不闪烁
+  delay(20);
+  
+  LcdCommandWrite(0x01); // 清屏，光标归位
+  delay(100);
+  
+  LcdCommandWrite(0x80); // 设置DDRAM地址
+  delay(20);
 }
 
-void setup (void) {
-
-int i = 0;
-
-for (i=Enable; i \<= DI; i++) {
-
-pinMode(i,OUTPUT);
-
+// 主循环（八位接口）
+void loop(void) {
+  LcdCommandWrite(0x01); // 清屏
+  delay(10);
+  
+  LcdCommandWrite(0x80+2); // 设置光标位置第一行第3列
+  delay(10);
+  
+  // 逐字符写入"Hello, world!"
+  LcdDataWrite('H');
+  LcdDataWrite('e');
+  LcdDataWrite('l');
+  LcdDataWrite('l');
+  LcdDataWrite('o');
+  LcdDataWrite(',');
+  LcdDataWrite(' ');
+  LcdDataWrite('w');
+  LcdDataWrite('o');
+  LcdDataWrite('r');
+  LcdDataWrite('l');
+  LcdDataWrite('d');
+  LcdDataWrite('!');
+  delay(10);
+  
+  LcdCommandWrite(0xc0+2); // 设置光标位置第二行第3列
+  delay(10);
+  
+  // 逐字符写入"Hello, keyes!"
+  LcdDataWrite('H');
+  LcdDataWrite('e');
+  LcdDataWrite('l');
+  LcdDataWrite('l');
+  LcdDataWrite('o');
+  LcdDataWrite(',');
+  LcdDataWrite(' ');
+  LcdDataWrite('k');
+  LcdDataWrite('e');
+  LcdDataWrite('y');
+  LcdDataWrite('e');
+  LcdDataWrite('s');
+  LcdDataWrite('!');
+  LcdDataWrite(' ');
+  
+  delay(5000); // 显示5秒
 }
-
-delay(100);
-
-// 短暂的停顿后初始化LCD
-
-// 用于LCD控制需要
-
-LcdCommandWrite(0x38); // 设置为8-bit接口，2行显示，5x7文字大小
-
-delay(64);
-
-LcdCommandWrite(0x38); // 设置为8-bit接口，2行显示，5x7文字大小
-
-delay(50);
-
-LcdCommandWrite(0x38); // 设置为8-bit接口，2行显示，5x7文字大小
-
-delay(20);
-
-LcdCommandWrite(0x06); // 输入方式设定
-
-// 自动增量，没有显示移位
-
-delay(20);
-
-LcdCommandWrite(0x0E); // 显示设置
-
-// 开启显示屏，光标显示，无闪烁
-
-delay(20);
-
-LcdCommandWrite(0x01); // 屏幕清空，光标位置归零
-
-delay(100);
-
-LcdCommandWrite(0x80); // 显示设置
-
-// 开启显示屏，光标显示，无闪烁
-
-delay(20);
-
-}
-
-void loop (void) {
-
-LcdCommandWrite(0x01); // 屏幕清空，光标位置归零
-
-delay(10);
-
-LcdCommandWrite(0x80+2);
-
-delay(10);
-
-// 写入欢迎信息
-
-LcdDataWrite('H');
-
-LcdDataWrite('e');
-
-LcdDataWrite('l');
-
-LcdDataWrite('l');
-
-LcdDataWrite('o');
-
-LcdDataWrite(',');
-
-LcdDataWrite(' ');
-
-LcdDataWrite('w');
-
-LcdDataWrite('o');
-
-LcdDataWrite('r');
-
-LcdDataWrite('l');
-
-LcdDataWrite('d');
-
-LcdDataWrite('!');
-
-delay(10);
-
-LcdCommandWrite(0xc0+2); // 定义光标位置为第二行第二个位置
-
-delay(10);
-
-LcdDataWrite('H');
-
-LcdDataWrite('e');
-
-LcdDataWrite('l');
-
-LcdDataWrite('l');
-
-LcdDataWrite('o');
-
-LcdDataWrite(',');
-
-LcdDataWrite(' ');
-
-LcdDataWrite('k');
-
-LcdDataWrite('e');
-
-LcdDataWrite('y');
-
-LcdDataWrite('e');
-
-LcdDataWrite('s');
-
-LcdDataWrite('!');
-
-LcdDataWrite(' ');
-
-delay(5000);
-
-}
+```
 
 测试结果
 
@@ -2924,17 +2135,17 @@ delay(5000);
 
 实验器材
 
-开发板 *1
+开发板 \*1
 
-USB线*1
+USB线\*1
 
-1602 LCD*1
+1602 LCD\*1
 
-可调电位器*1
+可调电位器\*1
 
-超声波传感器*1
+超声波传感器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -2952,129 +2163,96 @@ USB线*1
 
 测试代码
 
-\#include \<LiquidCrystal.h\>
+```
+#include <LiquidCrystal.h>
 
-\#define echoPin 3 // Echo Pin
+// 超声波传感器引脚定义
+#define echoPin 3   // 回声信号接收引脚
+#define trigPin 2   // 触发信号输出引脚
+#define LEDPin 13   // 板载LED指示灯引脚
 
-\#define trigPin 2 // Trigger Pin
-
-\#define LEDPin 13 // Onboard LED
-
+// 初始化LCD对象（RS, E, D4, D5, D6, D7）
 LiquidCrystal lcd(4, 5, 6, 7, 8, 9);
 
-int maximumRange = 200; // Maximum range needed
+// 距离测量范围设置
+int maximumRange = 200;  // 最大测量距离（厘米）
+int minimumRange = 0;    // 最小测量距离（厘米）
 
-int minimumRange = 0; // Minimum range needed
+// 测量变量
+long duration, distance; // 持续时间和计算得到的距离
 
-long duration, distance; // Duration used to calculate distance
-
-void setup() {
-
-pinMode(trigPin, OUTPUT);
-
-pinMode(echoPin, INPUT);
-
-pinMode(LEDPin, OUTPUT); // Use LED indicator (if required)
-
-lcd.begin(16, 2);
-
-lcd.setCursor(0,0);
-
-lcd.print("The distance is:");
-
-}
-
-void loop() {
-
-/\* The following trigPin/echoPin cycle is used to determine the
-
-distance of the nearest object by bouncing soundwaves off of it. \*/
-
-digitalWrite(trigPin, LOW);
-
-delayMicroseconds(2);
-
-digitalWrite(trigPin, HIGH);
-
-delayMicroseconds(10);
-
-digitalWrite(trigPin, LOW);
-
-duration = pulseIn(echoPin, HIGH);
-
-//Calculate the distance (in cm) based on the speed of sound.
-
-distance = duration/58.2;
-
-if (distance \>= maximumRange || distance \<= minimumRange){
-
-/\* Send a negative number to computer and Turn LED ON
-
-to indicate "out of range" \*/
-
-lcd.setCursor(0,1);
-
-lcd.print("-1 ");
-
-digitalWrite(LEDPin, HIGH);
-
-}
-
-else {
-
-/\* Send the distance to the computer using Serial protocol, and
-
-turn LED OFF to indicate successful reading. \*/
-
-Serial.println(distance);
-
-if(distance\<10)
-
+void setup() 
 {
-
-lcd.setCursor(0,1);
-
-lcd.print(distance);
-
-lcd.setCursor(1,1);
-
-lcd.print(" ");
-
+    // 初始化各引脚模式
+    pinMode(trigPin, OUTPUT);
+    pinMode(echoPin, INPUT);
+    pinMode(LEDPin, OUTPUT);  // 用于距离超出范围指示
+    
+    // LCD显示屏初始化
+    lcd.begin(16, 2);
+    lcd.setCursor(0,0);
+    lcd.print("The distance is:");
 }
 
-if((distance \>=10)&&(distance\<100))
-
+void loop() 
 {
-
-lcd.setCursor(0,1);
-
-lcd.print(distance);
-
-lcd.setCursor(2,1);
-
-lcd.print(" ");
-
+    /* 超声波测距过程 */
+    // 发送10μs的触发脉冲
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    
+    // 测量回声脉冲宽度
+    duration = pulseIn(echoPin, HIGH);
+    
+    // 计算距离（声速340m/s，换算为58.2μs/cm）
+    distance = duration/58.2;
+    
+    // 距离有效性判断
+    if (distance >= maximumRange || distance <= minimumRange)
+    {
+        /* 超出有效范围时的处理 */
+        lcd.setCursor(0,1);
+        lcd.print("-1 ");  // 显示-1表示超出范围
+        digitalWrite(LEDPin, HIGH);  // 点亮LED指示异常
+    }
+    else 
+    {
+        /* 正常距离显示处理 */
+        Serial.println(distance);  // 串口输出距离值
+        
+        // 根据距离值位数调整LCD显示格式
+        if(distance<10)
+        {
+            lcd.setCursor(0,1);
+            lcd.print(distance);
+            lcd.setCursor(1,1);
+            lcd.print("  ");  // 清空后两位
+        }
+        
+        if((distance >=10)&&(distance<100))
+        {
+            lcd.setCursor(0,1);
+            lcd.print(distance);
+            lcd.setCursor(2,1);
+            lcd.print(" ");  // 清空最后一位
+        }
+        
+        if(distance>100)
+        {
+            lcd.setCursor(0,1);
+            lcd.print(distance);  // 三位数完整显示
+        }
+        
+        digitalWrite(LEDPin, LOW);  // 关闭LED指示
+    }
+    
+    // 每次测量间隔50ms
+    delay(50);
 }
-
-if(distance\>100)
-
-{
-
-lcd.setCursor(0,1);
-
-lcd.print(distance);
-
-}
-
-digitalWrite(LEDPin, LOW);
-
-}
-
-//Delay 50ms before next reading.
-
-delay(50);
-
-}
+```
 
 测试结果
 
@@ -3088,17 +2266,17 @@ delay(50);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-1602 LCD*1
+1602 LCD\*1
 
-可调电位器*1
+可调电位器\*1
 
-1302时钟传感器*1
+1302时钟传感器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -3116,175 +2294,107 @@ USB线*1
 
 测试代码
 
-\#include \<stdio.h\>
+```
+#include <stdio.h>                      // 标准输入输出头文件
+#include <string.h>                     // 字符串操作头文件
+#include <DS1302.h>                     // DS1302实时时钟库
+#include <Wire.h>                       // I2C通信库
+#include <LiquidCrystal.h>              // LCD液晶显示屏库
 
-\#include \<string.h\>
+LiquidCrystal lcd(5, 6, 7, 8, 9, 10);  // 初始化LCD引脚(RS,EN,D4,D5,D6,D7)
 
-\#include \<DS1302.h\>
+/* 设置数字I/O引脚连接 */
+uint8_t CE_PIN = 4;                     // RST复位引脚
+uint8_t IO_PIN = 3;                     // DAT数据引脚 
+uint8_t SCLK_PIN = 2;                   // CLK时钟引脚
 
-\#include \<Wire.h\>
+/* 创建缓冲区 */
+char buf[50];                           // 完整日期时间缓冲区
+char bf[50];                            // 星期和年份缓冲区
+char bu[50];                            // 时间缓冲区
+char uf[50];                            // 月份和日期缓冲区
+char day[10];                           // 星期名称缓冲区
 
-\#include \<LiquidCrystal.h\>
-
-LiquidCrystal lcd(5, 6, 7, 8, 9, 10);
-
-/\* Set the appropriate digital I/O pin connections \*/
-
-uint8_t CE_PIN = 4; // RST
-
-uint8_t IO_PIN = 3; // DAT
-
-uint8_t SCLK_PIN = 2; // CLK
-
-/\* Create buffers \*/
-
-char buf\[50\];
-
-char bf\[50\];
-
-char bu\[50\];
-
-char uf\[50\];
-
-char day\[10\];
-
-/\* Create a DS1302 object \*/
-
-DS1302 rtc(CE_PIN, IO_PIN, SCLK_PIN);
+/* 创建DS1302对象 */
+DS1302 rtc(CE_PIN, IO_PIN, SCLK_PIN);   // 实例化DS1302对象
 
 void print_time()
-
 {
+    /* 从芯片获取当前时间和日期 */
+    Time t = rtc.time();                 // 获取当前时间结构体
 
-/\* Get the current time and date from the chip \*/
+    /* 设置星期名称 */
+    memset(day, 0, sizeof(day));         // 清空星期缓冲区
+    switch (t.day)
+    {
+        case 1:
+            strcpy(day, "Sunday ");      // 星期日
+            break;
+        case 2:
+            strcpy(day, "Monday ");      // 星期一
+            break;
+        case 3:
+            strcpy(day, "Tuesday ");     // 星期二
+            break;
+        case 4:
+            strcpy(day, "Wednesday");    // 星期三
+            break;
+        case 5:
+            strcpy(day, "Thursday ");    // 星期四
+            break;
+        case 6:
+            strcpy(day, "Friday ");     // 星期五
+            break;
+        case 7:
+            strcpy(day, "Saturday ");   // 星期六
+            break;
+    }
 
-Time t = rtc.time();
+    /* 格式化日期时间并存入缓冲区 */
+    snprintf(buf, sizeof(buf), "%s %04d-%02d-%02d %02d:%02d:%02d",
+             day,
+             t.yr, t.mon, t.date,
+             t.hr, t.min, t.sec);
 
-/\* Name the day of the week \*/
+    snprintf(bf, sizeof(bf), "%s %04d",
+             day, t.yr);
+    lcd.setCursor(0,0);                 // 设置光标位置(第一行开头)
+    lcd.print(bf);                      // 显示星期和年份
 
-memset(day, 0, sizeof(day)); /\* clear day buffer \*/
+    snprintf(bu, sizeof(bu), "%02d:%02d:%02d",
+             t.hr, t.min, t.sec);
+    
+    lcd.setCursor(0,1);                 // 设置光标位置(第二行开头)
+    lcd.print(bu);                      // 显示时分秒
 
-switch (t.day) {
-
-case 1:
-
-strcpy(day, "Sunday ");
-
-break;
-
-case 2:
-
-strcpy(day, "Monday ");
-
-break;
-
-case 3:
-
-strcpy(day, "Tuesday ");
-
-break;
-
-case 4:
-
-strcpy(day, "Wednesday");
-
-break;
-
-case 5:
-
-strcpy(day, "Thursday ");
-
-break;
-
-case 6:
-
-strcpy(day, "Friday ");
-
-break;
-
-case 7:
-
-strcpy(day, "Saturday ");
-
-break;
-
-}
-
-/\* Format the time and date and insert into the temporary buffer \*/
-
-snprintf(buf, sizeof(buf), "%s %04d-%02d-%02d %02d:%02d:%02d",
-
-day,
-
-t.yr, t.mon, t.date,
-
-t.hr, t.min, t.sec);
-
-snprintf(bf, sizeof(bf), "%s %04d",
-
-day, t.yr);
-
-lcd.setCursor(0,0);
-
-lcd.print(bf);
-
-snprintf(bu, sizeof(bu),"%02d:%02d:%02d",
-
-t.hr, t.min, t.sec);
-
-/\* Print the formatted string to serial so we can see the time \*/
-
-lcd.setCursor(0,1);
-
-lcd.print(bu);
-
-snprintf(uf, sizeof(uf), "%02d-%02d",
-
-t.mon, t.date);
-
-lcd.setCursor(11,1);
-
-lcd.print(uf);
-
+    snprintf(uf, sizeof(uf), "%02d-%02d",
+             t.mon, t.date);
+    lcd.setCursor(11,1);                // 设置光标位置(第二行第11列)
+    lcd.print(uf);                      // 显示月-日
 }
 
 void setup()
-
 {
+    lcd.begin(16, 2);                   // 初始化16x2 LCD显示屏
 
-lcd.begin(16, 2);
+    /* 通过关闭写保护和清除时钟停止标志初始化芯片 */
+    rtc.write_protect(false);           // 禁用写保护
+    rtc.halt(false);                    // 清除时钟停止标志
 
-/\* Initialize a new chip by turning off write protection and clearing the
+    /* 创建时间对象设置日期时间 */
+    Time t(2017,7,24,10,12,22,2);       // 创建时间对象(年,月,日,时,分,秒,星期)
 
-clock halt flag. These methods needn't always be called. See the DS1302
-
-datasheet for details. \*/
-
-rtc.write_protect(false);
-
-rtc.halt(false);
-
-/\* Make a new time object to set the date and time \*/
-
-Time t(2017,7,24,10,12,22,2);
-
-/\* Set the time and date on the chip \*/
-
-rtc.time(t);
-
+    /* 设置芯片日期时间 */
+    rtc.time(t);                        // 写入RTC时间
 }
 
-/\* Loop and print the time every second \*/
-
+/* 循环每秒打印时间 */
 void loop()
-
 {
-
-print_time();
-
-delay(1000);
-
+    print_time();                       // 调用时间显示函数
+    delay(1000);                        // 延时1秒
 }
+```
 
 测试结果
 
@@ -3298,17 +2408,17 @@ delay(1000);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-1602 LCD*1
+1602 LCD\*1
 
-可调电位器*1
+可调电位器\*1
 
-人台红外热释电传感器*1
+人台红外热释电传感器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -3326,65 +2436,42 @@ USB线*1
 
 测试代码
 
-\#include \<LiquidCrystal.h\>
+```
+#include <LiquidCrystal.h>
 
 LiquidCrystal lcd(3, 4, 5, 6, 7, 8);
 
-byte sensorPin = 2;//定义数字口2
-
-byte indicator = 13;//定义数字口13
+byte sensorPin = 2;          //定义数字口2
+byte indicator = 13;         //定义数字口13
 
 void setup()
-
 {
-
-pinMode(sensorPin,INPUT);//设置数字口2位输入
-
-pinMode(indicator,OUTPUT);//设置数字口13为输出
-
-lcd.begin(16, 2);
-
+    pinMode(sensorPin, INPUT);  //设置数字口2位输入
+    pinMode(indicator, OUTPUT); //设置数字口13为输出
+    lcd.begin(16, 2);
 }
 
 void loop()
-
 {
+    byte state = digitalRead(sensorPin);  //读取到数字口2的数值赋值给state
+    digitalWrite(indicator, state);       //控制数值口13的状态
 
-byte state = digitalRead(sensorPin);//读取到数字口2的数值赋值给state
-
-digitalWrite(indicator,state);//控制数值口13的状态
-
-if(state ==1)//当数值口2位高电平时，串口监视器输出对应字符，并自动换行
-
-{
-
-lcd.setCursor(0,0);
-
-lcd.print("Somebody is ");
-
-lcd.setCursor(0,1);
-
-lcd.print("in this area! ");
-
+    if(state == 1)                        //当数值口2位高电平时，串口监视器输出对应字符，并自动换行
+    {
+        lcd.setCursor(0, 0);
+        lcd.print("Somebody is ");
+        lcd.setCursor(0, 1);
+        lcd.print("in this area! ");
+    }
+    else if(state == 0)
+    {
+        lcd.setCursor(0, 0);
+        lcd.print("No one! ");
+        lcd.setCursor(0, 1);
+        lcd.print("No one! ");
+    }
 }
-
-else if(state == 0)
-
-{
-
-lcd.setCursor(0,0);
-
-lcd.print("No one! ");
-
-lcd.setCursor(0,1);
-
-lcd.print("No one! ");
-
-}
-
-}
-
-测试结果
+```
 
 按照上图接好线，烧录好代码，旋转电位器调节好背光后，当检测到有人有附近移动时，在1602 LCD第一行显示显示"Somebody is "字符，第二行显示"in this area!"字符；当没有检测到人体在附件移动时，1602 LCD两行都显示"No one!"字符。
 
@@ -3398,17 +2485,17 @@ lcd.print("No one! ");
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-1602 LCD*1
+1602 LCD\*1
 
-可调电位器*1
+可调电位器\*1
 
-DHT11温湿度传感器*1
+DHT11温湿度传感器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -3426,75 +2513,56 @@ DHT11温湿度传感器*1
 
 测试代码
 
-\#include \<dht11.h\>
+```
+#include <dht11.h>                      // DHT11温湿度传感器库
+#include <LiquidCrystal.h>              // LCD液晶显示屏库
 
-// include the library code:
+// 初始化LCD引脚(RS,EN,D4,D5,D6,D7)
+LiquidCrystal lcd(3, 4, 5, 6, 7, 8);   
 
-\#include \<LiquidCrystal.h\>
+dht11 DHT;                              // 创建DHT11对象
+#define DHT11_PIN 2                     // DHT11数据引脚定义
 
-// initialize the library with the numbers of the interface pins
-
-LiquidCrystal lcd(3, 4, 5, 6, 7, 8);
-
-dht11 DHT;
-
-\#define DHT11_PIN 2
-
-void setup(){
-
-lcd.begin(16, 2);
-
-// Print a message to the LCD.
-
-lcd.setCursor(0,0);
-
-lcd.print("Humidity (%):");
-
-lcd.setCursor(0,1);
-
-lcd.print("Temp (C):");
-
+void setup()
+{
+    lcd.begin(16, 2);                   // 初始化16x2 LCD显示屏
+    
+    // 在LCD上打印固定信息
+    lcd.setCursor(0,0);                 // 设置光标位置(第一行开头)
+    lcd.print("Humidity (%):");         // 显示"湿度(%)"
+    
+    lcd.setCursor(0,1);                 // 设置光标位置(第二行开头)
+    lcd.print("Temp (C):");             // 显示"温度(℃)"
 }
 
-void loop(){
-
-int chk;
-
-chk = DHT.read(DHT11_PIN); // READ DATA
-
-switch (chk){
-
-case DHTLIB_OK:
-
-break;
-
-case DHTLIB_ERROR_CHECKSUM:
-
-break;
-
-case DHTLIB_ERROR_TIMEOUT:
-
-break;
-
-default:
-
-break;
-
+void loop()
+{
+    int chk;                            // 传感器状态检查变量
+    chk = DHT.read(DHT11_PIN);         // 读取DHT11传感器数据
+    
+    // 检查传感器状态
+    switch (chk)
+    {
+        case DHTLIB_OK:                 // 读取成功
+            break;
+        case DHTLIB_ERROR_CHECKSUM:    // 校验和错误
+            break;
+        case DHTLIB_ERROR_TIMEOUT:     // 读取超时
+            break;
+        default:                       // 其他错误
+            break;
+    }
+    
+    // 显示传感器数据
+    lcd.setCursor(13,0);               // 设置湿度显示位置(第一行第13列)
+    lcd.print(DHT.humidity);           // 显示湿度值
+    
+    lcd.setCursor(9,1);                // 设置温度显示位置(第二行第9列)
+    lcd.print(DHT.temperature);        // 显示温度值
+    
+    delay(1000);                       // 延时1秒
 }
-
-// DISPLAT DATA
-
-lcd.setCursor(13,0);
-
-lcd.print(DHT.humidity);
-
-lcd.setCursor(9,1);
-
-lcd.print(DHT.temperature);
-
-delay(1000);
-
-}
+```
 
 测试结果
 
@@ -3510,17 +2578,17 @@ delay(1000);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-1602 LCD*1
+1602 LCD\*1
 
-可调电位器*1
+可调电位器\*1
 
-摇杆模块*1
+摇杆模块\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -3538,167 +2606,103 @@ USB线*1
 
 测试代码
 
-\#include \<LiquidCrystal.h\>
+```
+#include <LiquidCrystal.h>              // LCD液晶显示屏库
 
-// initialize the library with the numbers of the interface pins
+// 初始化LCD引脚(RS,EN,D4,D5,D6,D7)
+LiquidCrystal lcd(3, 4, 5, 6, 7, 8);   
 
-LiquidCrystal lcd(3, 4, 5, 6, 7, 8);
-
-int JoyStick_X = 1; //定义模拟口A1
-
-int JoyStick_Y = 0; //定义模拟口A0
-
-int JoyStick_Z = 2; //定义数字口2
+int JoyStick_X = 1;                     // 定义摇杆X轴模拟口A1
+int JoyStick_Y = 0;                     // 定义摇杆Y轴模拟口A0
+int JoyStick_Z = 2;                     // 定义摇杆Z轴数字口2
 
 void setup()
-
 {
-
-pinMode(JoyStick_Z, INPUT);//将JoyStick_Z设置为输入
-
-lcd.begin(16, 2);
-
-// Print a message to the LCD.
-
-lcd.setCursor(0,0);
-
-lcd.print("X:");
-
-lcd.setCursor(8,0);
-
-lcd.print("Y:");
-
-lcd.setCursor(0,1);
-
-lcd.print("Z:");}
+    pinMode(JoyStick_Z, INPUT);         // 将JoyStick_Z设置为输入模式
+    lcd.begin(16, 2);                   // 初始化16x2 LCD显示屏
+    
+    // 在LCD上打印固定标签
+    lcd.setCursor(0,0);                 // 设置光标位置(第一行开头)
+    lcd.print("X:");                    // 显示X轴标签
+    
+    lcd.setCursor(8,0);                 // 设置光标位置(第一行第8列)
+    lcd.print("Y:");                    // 显示Y轴标签
+    
+    lcd.setCursor(0,1);                 // 设置光标位置(第二行开头)
+    lcd.print("Z:");                    // 显示Z轴标签
+}
 
 void loop()
-
 {
+    int x,y,z;                          // 定义摇杆值变量
+    
+    // 读取并显示X轴数值
+    x = analogRead(JoyStick_X);         // 读取A1模拟口数值
+    if(x < 10)
+    {
+        lcd.setCursor(2,0);             // 设置光标位置(第一行第2列)
+        lcd.print(x);                   // 显示个位数
+        lcd.setCursor(3,0);             // 设置光标清除位置
+        lcd.print(" ");                // 清除多余数字
+    }
+    else if((x >= 10) && (x < 100))
+    {
+        lcd.setCursor(2,0);
+        lcd.print(x);                   // 显示两位数
+        lcd.setCursor(4,0);
+        lcd.print(" ");
+    }
+    else if((x >= 100) && (x < 1000))
+    {
+        lcd.setCursor(2,0);
+        lcd.print(x);                   // 显示三位数
+        lcd.setCursor(5,0);
+        lcd.print(" ");
+    }
+    else if(x >= 1000)
+    {
+        lcd.setCursor(2,0);
+        lcd.print(x);                   // 显示四位数
+    }
+    delay(100);                         // 延时100ms
 
-int x,y,z; //定义数字变量x y z
+    // 读取并显示Y轴数值
+    y = analogRead(JoyStick_Y);         // 读取A0模拟口数值
+    if(y < 10)
+    {
+        lcd.setCursor(10,0);            // 设置光标位置(第一行第10列)
+        lcd.print(y);
+        lcd.setCursor(11,0);
+        lcd.print(" ");
+    }
+    else if((y >= 10) && (y < 100))
+    {
+        lcd.setCursor(10,0);
+        lcd.print(y);
+        lcd.setCursor(12,0);
+        lcd.print(" ");
+    }
+    else if((y >= 100) && (y < 1000))
+    {
+        lcd.setCursor(10,0);
+        lcd.print(y);
+        lcd.setCursor(13,0);
+        lcd.print(" ");
+    }
+    else if(y >= 1000)
+    {
+        lcd.setCursor(2,0);
+        lcd.print(y);
+    }
+    delay(100);
 
-x=analogRead(JoyStick_X); //将x设置为读取到的A1的数值
-
-if(x\<10)
-
-{
-
-lcd.setCursor(2,0);
-
-lcd.print(x);
-
-lcd.setCursor(3,0);
-
-lcd.print(" ");
-
+    // 读取并显示Z轴数值
+    z = digitalRead(JoyStick_Z);        // 读取数字口2数值
+    lcd.setCursor(2,1);                 // 设置光标位置(第二行第2列)
+    lcd.print(z);                       // 显示开关状态(0/1)
+    delay(100);                         // 延时100ms
 }
-
-if((x\>=10)&&(x\<100))
-
-{
-
-lcd.setCursor(2,0);
-
-lcd.print(x);
-
-lcd.setCursor(4,0);
-
-lcd.print(" ");
-
-}
-
-if((x\>=100)&&(x\<1000))
-
-{
-
-lcd.setCursor(2,0);
-
-lcd.print(x);
-
-lcd.setCursor(5,0);
-
-lcd.print(" ");
-
-}
-
-if(x\>=1000)
-
-{
-
-lcd.setCursor(2,0);
-
-lcd.print(x);
-
-}
-
-delay(100);
-
-y=analogRead(JoyStick_Y);//将y设置为读取到的A0的数值
-
-if(y\<10)
-
-{
-
-lcd.setCursor(10,0);
-
-lcd.print(y);
-
-lcd.setCursor(11,0);
-
-lcd.print(" ");
-
-}
-
-if((y\>=10)&&(y\<100))
-
-{
-
-lcd.setCursor(10,0);
-
-lcd.print(y);
-
-lcd.setCursor(12,0);
-
-lcd.print(" ");
-
-}
-
-if((y\>=100)&&(y\<1000))
-
-{
-
-lcd.setCursor(10,0);
-
-lcd.print(y);
-
-lcd.setCursor(13,0);
-
-lcd.print(" ");
-
-}
-
-if(y\>=1000)
-
-{
-
-lcd.setCursor(2,0);
-
-lcd.print(y);
-
-}
-
-delay(100);
-
-z=digitalRead(JoyStick_Z);//将z设置为读取到的数字口2的数值
-
-lcd.setCursor(2,1);
-
-lcd.print(z);
-
-delay(100);//延迟0.1S
-
-}
+```
 
 测试结果
 
@@ -3714,17 +2718,17 @@ delay(100);//延迟0.1S
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-5V 单路继电器模块*1
+5V 单路继电器模块\*1
 
-LED*1
+LED\*1
 
-220Ω 电阻*1
+220Ω 电阻\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -3742,37 +2746,22 @@ LED*1
 
 测试代码
 
-int Relay = 3; //定义数字口3
+```
+int Relay = 3;  //定义数字口3  
 
-void setup()
+void setup()  
+{  
+    pinMode(Relay, OUTPUT);  //将Relay设置为输出  
+}  
 
-{
-
-pinMode(Relay, OUTPUT); //将Relay设置为输出
-
-}
-
-void loop()
-
-{
-
-digitalWrite(Relay, HIGH); //打开继电器
-
-delay(2000); //延时2S
-
-digitalWrite(Relay, LOW); //关闭继电器
-
-delay(2000); //延时2S
-
-}
-
-测试结果
-
-按照上图接好线，烧录好代码，上电后，继电器开启（ON端和COM端连通）2S，LED
-
-亮起；停止（NC端和COM端连通）2S，LED熄灭；循环交替。开启时继电器上D2灯
-
-亮起。
+void loop()  
+{  
+    digitalWrite(Relay, HIGH);  //打开继电器  
+    delay(2000);                //延时2S  
+    digitalWrite(Relay, LOW);   //关闭继电器  
+    delay(2000);                //延时2S  
+}  
+```
 
 ## 实验二十五 水蒸气检测显示实验
 
@@ -3784,17 +2773,17 @@ delay(2000); //延时2S
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-1602 LCD*1
+1602 LCD\*1
 
-可调电位器*1
+可调电位器\*1
 
-水滴水蒸气传感器*1
+水滴水蒸气传感器\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -3812,83 +2801,59 @@ USB线*1
 
 测试代码
 
-\#include \<LiquidCrystal.h\>
+```
+#include <LiquidCrystal.h>              // LCD液晶显示屏库头文件
 
-// initialize the library with the numbers of the interface pins
+// 初始化LCD引脚(RS,EN,D4,D5,D6,D7)
+LiquidCrystal lcd(3, 4, 5, 6, 7, 8);   
 
-LiquidCrystal lcd(3, 4, 5, 6, 7, 8);
-
-void setup() {
-
-lcd.begin(16, 2);
-
-// Print a message to the LCD.
-
-lcd.setCursor(0,0);
-
-lcd.print("Sensor value:");
-
-}
-
-void loop() {
-
-int value = analogRead(A0); //读取到的A0的数值，并赋值给数字变量value
-
-if(value\<10)
-
+void setup() 
 {
-
-lcd.setCursor(0,1);
-
-lcd.print(value);
-
-lcd.setCursor(1,1);
-
-lcd.print(" ");
-
+    lcd.begin(16, 2);                   // 初始化16列2行的LCD显示屏
+    
+    // 在LCD第一行打印标题
+    lcd.setCursor(0,0);                 // 设置光标位置(第一行开头)
+    lcd.print("Sensor value:");         // 显示"传感器值:"
 }
 
-if((value\>=10)&&(value\<100))
-
+void loop() 
 {
-
-lcd.setCursor(0,1);
-
-lcd.print(value);
-
-lcd.setCursor(2,1);
-
-lcd.print(" ");
-
+    int value = analogRead(A0);         // 读取A0模拟口的数值
+    
+    // 根据数值位数调整显示位置
+    if(value < 10)                      // 数值小于10的情况
+    {
+        lcd.setCursor(0,1);             // 设置光标位置(第二行开头)
+        lcd.print(value);               // 显示数值
+        lcd.setCursor(1,1);             // 设置清除位置
+        lcd.print(" ");                 // 清除多余数字
+    }
+    
+    if((value >= 10) && (value < 100))  // 数值在10-99之间
+    {
+        lcd.setCursor(0,1);
+        lcd.print(value);
+        lcd.setCursor(2,1);
+        lcd.print(" ");
+    }
+    
+    if((value >= 100) && (value < 1000)) // 数值在100-999之间
+    {
+        lcd.setCursor(0,1);
+        lcd.print(value);
+        lcd.setCursor(3,1);
+        lcd.print(" ");
+    }
+    
+    if(value >= 1000)                   // 数值大于等于1000
+    {
+        lcd.setCursor(2,0);             // 注意：这里显示在第一行第2列
+        lcd.print(value);
+    }
+    
+    delay(100);                         // 延时100毫秒
 }
-
-if((value\>=100)&&(value\<1000))
-
-{
-
-lcd.setCursor(0,1);
-
-lcd.print(value);
-
-lcd.setCursor(3,1);
-
-lcd.print(" ");
-
-}
-
-if(value\>=1000)
-
-{
-
-lcd.setCursor(2,0);
-
-lcd.print(value);
-
-}
-
-delay(100);
-
-}
+```
 
 测试结果
 
@@ -3904,17 +2869,17 @@ delay(100);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-麦克风声音传感器*1
+麦克风声音传感器\*1
 
-LED*1
+LED\*1
 
-220Ω 电阻*1
+220Ω 电阻\*1
 
-面包板*1
+面包板\*1
 
 正标线若干
 
@@ -3932,49 +2897,35 @@ LED*1
 
 测试代码
 
-int MIC=0;//定义声音传感器为模拟0 接口
+```
+int MIC = 0;  //定义声音传感器为模拟0 接口  
+int LED = 9;  //定义LED接口为数字9 接口  
+int val = 0;  //定义数字变量  
 
-int LED=9;//定义LED接口为数字9 接口
+void setup()  
+{  
+    pinMode(LED, OUTPUT);  //定义LED 为输出接口  
+    pinMode(MIC, INPUT);   //定义声音传感器为输入接口  
+    Serial.begin(9600);    //设定波特率为9600  
+}  
 
-int val=0;//定义数字变量
+void loop()  
+{  
+    val = analogRead(MIC);  //读取声音传感器的模拟值  
+    Serial.println(val);    //输出模拟值，并将其打印出来  
 
-void setup()
+    if(val >= 300)         //当模拟值大于300 时LED亮起  
+    {  
+        digitalWrite(LED, HIGH);  
+    }  
+    else  
+    {  
+        digitalWrite(LED, LOW);  
+    }  
 
-{
-
-pinMode(LED,OUTPUT);//定义LED 为输出接口
-
-pinMode(MIC,INPUT);//定义声音传感器为输入接口
-
-Serial.begin(9600);//设定波特率为9600
-
-}
-
-void loop()
-
-{
-
-val=analogRead(MIC);//读取声音传感器的模拟值
-
-Serial.println(val);//输出模拟值，并将其打印出来
-
-if(val\>=300)//当模拟值大于300 时LED亮起
-
-{
-
-digitalWrite(LED,HIGH);
-
-}else
-
-{
-
-digitalWrite(LED,LOW);
-
-}
-
-delay(500);
-
-}
+    delay(500);  
+}  
+```
 
 测试结果
 
@@ -4020,13 +2971,13 @@ delay(500);
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-减速步进电机*1
+减速步进电机\*1
 
-UL2003*1
+UL2003\*1
 
 杜邦线若干
 
@@ -4042,47 +2993,36 @@ UL2003*1
 
 测试代码
 
-\#include \<Stepper.h\>
+```
+#include <Stepper.h>
 
-//这里设置步进电机旋转一圈是多少步
+// 这里设置步进电机旋转一圈是多少步
+#define STEPS 100
 
-\#define STEPS 100
+// 设置步进电机的步数和引脚
+Stepper stepper(STEPS, 11, 10, 9, 8);
 
-//设置步进电机的步数和引脚
+// 定义变量用来存储历史读数
+int previous = 0;
 
-Stepper stepper(STEPS, 11, 10, 9, 8);
-
-//定义变量用来存储历史读数
-
-int previous = 0;
-
-void setup()
-
+void setup()
 {
-
- //设置电机每分钟的转速为90步
-
-  stepper.setSpeed(90);
-
+    // 设置电机每分钟的转速为90步
+    stepper.setSpeed(90);
 }
 
-void loop()
-
+void loop()
 {
-
- //获取传感器读数
-
- int val = analogRead(0);
-
- //移动步数为当前读数减去历史读数
-
- stepper.step(val - previous);
-
- //保存历史读数
-
- previous = val;
-
+    // 获取传感器读数
+    int val = analogRead(0);
+    
+    // 移动步数为当前读数减去历史读数
+    stepper.step(val - previous);
+    
+    // 保存历史读数
+    previous = val;
 }
+```
 
 测试结果
 
@@ -4098,11 +3038,11 @@ APDS-9930 在单个 8 引脚封装内提供 I2C 接口兼容的环境亮度传�
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-keyes 9930 接近和非接触式手势检测RGB和姿态传感器*1
+keyes 9930 接近和非接触式手势检测RGB和姿态传感器\*1
 
 杜邦线若干
 
@@ -4118,241 +3058,163 @@ keyes 9930 接近和非接触式手势检测RGB和姿态传感器*1
 
 测试代码
 
-\#define DUMP_REGS
-
-\#include \<Wire.h\>
-
-\#include \<APDS9930.h\>
-
-// Pins
-
-\#define APDS9930_INT 2 // Needs to be an interrupt pin
-
-\#define LED_PIN 13 // LED for showing interrupt
-
-// Constants
-
-\#define PROX_INT_HIGH 600 // Proximity level for interrupt
-
-\#define PROX_INT_LOW 0 // No far interrupt
-
-// Global variables
-
-APDS9930 apds = APDS9930();
-
-float ambient_light = 0; // can also be an unsigned long
-
-uint16_t ch0 = 0;
-
-uint16_t ch1 = 1;
-
-uint16_t proximity_data = 0;
-
-volatile bool isr_flag = false;
-
-void setup() {
-
-// Set LED as output
-
-pinMode(LED_PIN, OUTPUT);
-
-pinMode(APDS9930_INT, INPUT);
-
-// Initialize Serial port
-
-Serial.begin(9600);
-
-Serial.println();
-
-Serial.println(F("------------------------------"));
-
-Serial.println(F("APDS-9930 - ProximityInterrupt"));
-
-Serial.println(F("------------------------------"));
-
-// Initialize interrupt service routine
-
-attachInterrupt(digitalPinToInterrupt(APDS9930_INT), interruptRoutine, FALLING);
-
-// Initialize APDS-9930 (configure I2C and initial values)
-
-if (apds.init()) {
-
-Serial.println(F("APDS-9930 initialization complete"));
-
-}
-
-else {
-
-Serial.println(F("Something went wrong during APDS-9930 init!"));
-
-}
-
-// Adjust the Proximity sensor gain
-
-if (!apds.setProximityGain(PGAIN_2X)) {
-
-Serial.println(F("Something went wrong trying to set PGAIN"));
-
-}
-
-// Set proximity interrupt thresholds
-
-if (!apds.setProximityIntLowThreshold(PROX_INT_LOW)) {
-
-Serial.println(F("Error writing low threshold"));
-
-}
-
-if (!apds.setProximityIntHighThreshold(PROX_INT_HIGH)) {
-
-Serial.println(F("Error writing high threshold"));
-
-}
-
-// Start running the APDS-9930 proximity sensor (interrupts)
-
-if (apds.enableProximitySensor(true)) {
-
-Serial.println(F("Proximity sensor is now running"));
-
-}
-
-else {
-
-Serial.println(F("Something went wrong during sensor init!"));
-
-}
-
-// Start running the APDS-9930 light sensor (no interrupts)
-
-if (apds.enableLightSensor(false)) {
-
-Serial.println(F("Light sensor is now running"));
-
-}
-
-else {
-
-Serial.println(F("Something went wrong during light sensor init!"));
-
-}
-
-\#ifdef DUMP_REGS
-
-/\* Register dump \*/
-
-uint8_t reg;
-
-uint8_t val;
-
-for (reg = 0x00; reg \<= 0x19; reg++) {
-
-if ((reg != 0x10) && \\
-
-(reg != 0x11))
-
+```
+#define DUMP_REGS                       // 定义寄存器调试模式
+
+#include <Wire.h>                       // I2C通信库
+#include <APDS9930.h>                   // APDS-9930传感器库
+
+// 引脚定义
+#define APDS9930_INT 2                  // 中断引脚(必须使用中断引脚)
+#define LED_PIN 13                      // LED指示灯引脚
+
+// 常量定义
+#define PROX_INT_HIGH 600               // 接近中断高阈值
+#define PROX_INT_LOW 0                  // 接近中断低阈值
+
+// 全局变量
+APDS9930 apds = APDS9930();             // 创建APDS-9930对象
+float ambient_light = 0;                // 环境光强度值
+uint16_t ch0 = 0;                       // 通道0光强度
+uint16_t ch1 = 1;                       // 通道1光强度
+uint16_t proximity_data = 0;            // 接近检测数据
+volatile bool isr_flag = false;         // 中断标志位
+
+void setup() 
 {
+    // 初始化LED引脚
+    pinMode(LED_PIN, OUTPUT);           // 设置LED为输出模式
+    pinMode(APDS9930_INT, INPUT);       // 设置中断引脚为输入模式
 
-apds.wireReadDataByte(reg, val);
+    // 初始化串口通信
+    Serial.begin(9600);                 // 设置串口波特率9600
+    Serial.println();
+    Serial.println(F("------------------------------"));
+    Serial.println(F("APDS-9930 - ProximityInterrupt"));
+    Serial.println(F("------------------------------"));
 
-Serial.print(reg, HEX);
+    // 初始化中断服务程序
+    attachInterrupt(digitalPinToInterrupt(APDS9930_INT), interruptRoutine, FALLING);
 
-Serial.print(": 0x");
+    // 初始化APDS-9930传感器
+    if (apds.init()) 
+    {
+        Serial.println(F("APDS-9930 initialization complete"));
+    }
+    else 
+    {
+        Serial.println(F("Something went wrong during APDS-9930 init!"));
+    }
 
-Serial.println(val, HEX);
+    // 设置接近传感器增益
+    if (!apds.setProximityGain(PGAIN_2X)) 
+    {
+        Serial.println(F("Something went wrong trying to set PGAIN"));
+    }
 
+    // 设置接近中断阈值
+    if (!apds.setProximityIntLowThreshold(PROX_INT_LOW)) 
+    {
+        Serial.println(F("Error writing low threshold"));
+    }
+    if (!apds.setProximityIntHighThreshold(PROX_INT_HIGH)) 
+    {
+        Serial.println(F("Error writing high threshold"));
+    }
+
+    // 启动接近传感器(启用中断)
+    if (apds.enableProximitySensor(true)) 
+    {
+        Serial.println(F("Proximity sensor is now running"));
+    }
+    else 
+    {
+        Serial.println(F("Something went wrong during sensor init!"));
+    }
+
+    // 启动光传感器(不启用中断)
+    if (apds.enableLightSensor(false)) 
+    {
+        Serial.println(F("Light sensor is now running"));
+    }
+    else 
+    {
+        Serial.println(F("Something went wrong during light sensor init!"));
+    }
+
+#ifdef DUMP_REGS
+    /* 寄存器调试输出 */
+    uint8_t reg;
+    uint8_t val;
+    for (reg = 0x00; reg <= 0x19; reg++) 
+    {
+        if ((reg != 0x10) && (reg != 0x11))
+        {
+            apds.wireReadDataByte(reg, val);
+            Serial.print(reg, HEX);
+            Serial.print(": 0x");
+            Serial.println(val, HEX);
+        }
+    }
+    apds.wireReadDataByte(0x1E, val);
+    Serial.print(0x1E, HEX);
+    Serial.print(": 0x");
+    Serial.println(val, HEX);
+#endif
 }
 
+void loop() 
+{
+    // 检测中断标志
+    if (isr_flag) 
+    {
+        // 读取接近值并输出
+        if (!apds.readProximity(proximity_data)) 
+        {
+            Serial.println("Error reading proximity value");
+        }
+        else 
+        {
+            Serial.print("Proximity detected! Level: ");
+            Serial.print(proximity_data);
+            Serial.print(" ");
+        }
+
+        // 读取光强度值(环境光,通道0,通道1)
+        if (!apds.readAmbientLightLux(ambient_light) || !apds.readCh0Light(ch0) || !apds.readCh1Light(ch1)) 
+        {
+            Serial.println(F("Error reading light values"));
+        }
+        else 
+        {
+            Serial.print(F("Ambient: "));
+            Serial.print(ambient_light);
+            Serial.print(F(" Ch0: "));
+            Serial.print(ch0);
+            Serial.print(F(" Ch1: "));
+            Serial.println(ch1);
+        }
+
+        // LED指示灯闪烁
+        digitalWrite(LED_PIN, HIGH);    // 点亮LED
+        delay(300);                     // 保持300ms
+        digitalWrite(LED_PIN, LOW);     // 关闭LED
+
+        // 清除中断标志和中断状态
+        isr_flag = false;
+        if (!apds.clearProximityInt()) 
+        {
+            Serial.println("Error clearing interrupt");
+        }
+    }
 }
 
-apds.wireReadDataByte(0x1E, val);
-
-Serial.print(0x1E, HEX);
-
-Serial.print(": 0x");
-
-Serial.println(val, HEX);
-
-\#endif
-
+// 中断服务程序
+void interruptRoutine() 
+{
+    isr_flag = true;                    // 设置中断标志
 }
-
-void loop() {
-
-// If interrupt occurs, print out the proximity level
-
-if (isr_flag) {
-
-// Read proximity level and print it out
-
-if (!apds.readProximity(proximity_data)) {
-
-Serial.println("Error reading proximity value");
-
-}
-
-else {
-
-Serial.print("Proximity detected! Level: ");
-
-Serial.print(proximity_data);
-
-Serial.print(" ");
-
-}
-
-// Read the light levels (ambient, red, green, blue)
-
-if (!apds.readAmbientLightLux(ambient_light) ||!apds.readCh0Light(ch0) ||!apds.readCh1Light(ch1)) {
-
-Serial.println(F("Error reading light values"));
-
-}
-
-else {
-
-Serial.print(F("Ambient: "));
-
-Serial.print(ambient_light);
-
-Serial.print(F(" Ch0: "));
-
-Serial.print(ch0);
-
-Serial.print(F(" Ch1: "));
-
-Serial.println(ch1);
-
-}
-
-// Turn on LED for a half a second
-
-digitalWrite(LED_PIN, HIGH);
-
-delay(300);
-
-digitalWrite(LED_PIN, LOW);
-
-// Reset flag and clear APDS-9930 interrupt (IMPORTANT!)
-
-isr_flag = false;
-
-if (!apds.clearProximityInt()) {
-
-Serial.println("Error clearing interrupt");
-
-}
-
-}
-
-}
-
-void interruptRoutine() {
-
-isr_flag = true;
-
-}
+```
 
 测试结果
 
@@ -4370,11 +3232,11 @@ isr_flag = true;
 
 实验器材
 
-开发板*1
+开发板\*1
 
-USB线*1
+USB线\*1
 
-震动检测传感器*1
+震动检测传感器\*1
 
 杜邦线若干
 
@@ -4390,29 +3252,23 @@ USB线*1
 
 测试代码
 
+```
 void setup()
-
 {
-
-Serial.begin(9600); //打开串口，设置串口波特率为 9600bps
-
+    Serial.begin(9600);             //打开串口，设置串口波特率为 9600bps
 }
 
 void loop()
-
 {
-
-int val;
-
-val=analogRead(0); //将模拟压电陶瓷震动传感器连接到模拟接口 0
-
-Serial.print("Vibration is ");
-
-Serial.println(val,DEC);//通过串口打印读取到的模拟值
-
-delay(100);
-
+    int val;
+    val = analogRead(0);            //将模拟压电陶瓷震动传感器连接到模拟接口 0
+    
+    Serial.print("Vibration is ");
+    Serial.println(val, DEC);       //通过串口打印读取到的模拟值
+    
+    delay(100);
 }
+```
 
 测试结果
 
