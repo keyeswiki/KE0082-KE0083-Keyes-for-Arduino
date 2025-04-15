@@ -5,7 +5,7 @@
 
    README.md
    docs/index.md
-
+   docs/Arduino.md
 
 
 
